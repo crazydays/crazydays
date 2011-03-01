@@ -3,6 +3,6 @@ require 'card.rb'
 
 deck = Deck.new
 
-while !deck.empty
+while !deck.empty?
 	print deck.deal
 end

@@ -3,15 +3,14 @@ require 'card.rb'
 class Deck
 	def initialize()
 		@cards = Array.new
-		(:spade, :diamond, :club, :heart).each {
-			|suit|
-			(1..13).each { |i| @cards.push(Card.new(suit, i)}
-		}
+		([:spade, :diamond, :club, :heart]).each do |suit|
+			(1..13).each { |i| @cards.push(Card.new(suit, i)) }
+		end
 		@cards.shuffle!
 	end
 
-	def empty
-		@cards.length == 0
+	def empty?
+		@cards.empty?
 	end
 
 	def deal
