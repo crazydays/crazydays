@@ -1,0 +1,2 @@
+
+puts String.methods.sort
