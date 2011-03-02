@@ -8,7 +8,7 @@ class Card
 	end
 
 	def to_s
-		value_to_s + ' of ' + suit_to_s + "\n"
+		value_to_s + ' of ' + suit_to_s
 	end
 
 	def value_to_s
