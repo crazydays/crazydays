@@ -32,4 +32,16 @@ class TestCard < Test::Unit::TestCase
 		assert_equal(  'hearts', Card.new(  :heart, 1).suit_to_s)
 		assert_equal(   'error', Card.new(    :foo, 1).suit_to_s)
 	end
+
+	def test_eql?
+		c1 = Card.new(:spade, 1)
+		c2 = Card.new(:spade, 1)
+		c3 = Card.new(:heart, 1)
+		c4 = Card.new(:spade, 2)
+
+		assert(c1.eql? c1)
+		assert(c1.eql? c2)
+		assert(! (c1.eql? c3))
+		assert(! (c1.eql? c4))
+	end
 end

@@ -1,11 +1,16 @@
 require 'card.rb'
 
 class Deck
+	attr_accessor :cards
+
 	def initialize()
 		@cards = Array.new
 		([:spade, :diamond, :club, :heart]).each do |suit|
 			(1..13).each { |i| @cards.push(Card.new(suit, i)) }
 		end
+	end
+
+	def shuffle!
 		@cards.shuffle!
 	end
 
@@ -15,5 +20,9 @@ class Deck
 
 	def deal
 		@cards.pop
+	end
+
+	def eql? (deck)
+		@cards.eql? deck.cards
 	end
 end

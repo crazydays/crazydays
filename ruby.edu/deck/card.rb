@@ -40,4 +40,8 @@ class Card
 			"error"
 		end
 	end
+
+	def eql?(card)
+		@suit.eql?(card.suit) && @value.eql?(card.value)
+	end
 end
