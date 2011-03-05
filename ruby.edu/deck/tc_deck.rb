@@ -23,14 +23,14 @@ class TestDeck < Test::Unit::TestCase
 		assert(! (d1.eql? d2))
 	end
 
-	def empty?
+	def test_empty?
 		d1 = Deck.new
 		assert(! (d1.empty?))
 		d1.cards = Array.new
 		assert(d1.empty?)
 	end
 
-	def deal
+	def test_deal
 		d1 = Deck.new
 		c1 = d1.deal
 		assert(c1.eql? Card.new(:heart, 13))
