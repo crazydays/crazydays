@@ -1,3 +1,5 @@
+require 'suit.rb'
+
 class Card
 	attr_accessor :suit, :value
 
@@ -26,18 +28,7 @@ class Card
 	end
 
 	def suit_to_s
-		case @suit
-		when :spade
-			"spades"
-		when :heart
-			"hearts"
-		when :club
-			"clubs"
-		when :diamond
-			"diamonds"
-		else
-			"error"
-		end
+		@suit.to_s
 	end
 
 	def eql?(card)

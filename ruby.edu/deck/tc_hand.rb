@@ -9,7 +9,7 @@ class TestHand < Test::Unit::TestCase
 	end
 
 	def test_insert
-		card = Card.new(:spade, 1)
+		card = Card.new(Suit::SPADE, 1)
 		hand = Hand.new
 
 		hand.insert(card)
@@ -19,8 +19,8 @@ class TestHand < Test::Unit::TestCase
 	end
 
 	def test_insert_in_order
-		c1 = Card.new(:spade, 1)
-		c2 = Card.new(:spade, 2)
+		c1 = Card.new(Suit::SPADE, 1)
+		c2 = Card.new(Suit::SPADE, 2)
 		hand = Hand.new
 
 		hand.insert(c1)
@@ -32,8 +32,8 @@ class TestHand < Test::Unit::TestCase
 	end
 
 	def test_insert_out_of_order
-		c1 = Card.new(:spade, 1)
-		c2 = Card.new(:spade, 2)
+		c1 = Card.new(Suit::SPADE, 1)
+		c2 = Card.new(Suit::SPADE, 2)
 		hand = Hand.new
 
 		hand.insert(c2)
@@ -45,8 +45,8 @@ class TestHand < Test::Unit::TestCase
 	end
 
 	def test_to_s
-		c1 = Card.new(:spade, 1)
-		c2 = Card.new(:spade, 2)
+		c1 = Card.new(Suit::SPADE, 1)
+		c2 = Card.new(Suit::SPADE, 2)
 		hand = Hand.new
 
 		hand.insert(c2)

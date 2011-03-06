@@ -3,41 +3,41 @@ require 'test/unit'
 
 class TestCard < Test::Unit::TestCase
 	def test_to_s
-		assert_equal('king of spades', Card.new(  :spade, 13).to_s)
-		assert_equal( '7 of diamonds', Card.new(:diamond,  7).to_s)
-		assert_equal(    '6 of clubs', Card.new(   :club,  6).to_s)
-		assert_equal( 'ace of hearts', Card.new(  :heart,  1).to_s)
+		assert_equal('king of spades', Card.new(Suit::SPADE,13).to_s)
+		assert_equal( '7 of diamonds', Card.new(Suit::DIAMOND, 7).to_s)
+		assert_equal(    '6 of clubs', Card.new(Suit::CLUB, 6).to_s)
+		assert_equal( 'ace of hearts', Card.new(Suit::HEART, 1).to_s)
 	end
 
 	def test_value_to_s
-		assert_equal( 'king', Card.new(:spade, 13).value_to_s)
-		assert_equal('queen', Card.new(:spade, 12).value_to_s)
-		assert_equal( 'jack', Card.new(:spade, 11).value_to_s)
-		assert_equal(   '10', Card.new(:spade, 10).value_to_s)
-		assert_equal(    '9', Card.new(:spade,  9).value_to_s)
-		assert_equal(    '8', Card.new(:spade,  8).value_to_s)
-		assert_equal(    '7', Card.new(:spade,  7).value_to_s)
-		assert_equal(    '6', Card.new(:spade,  6).value_to_s)
-		assert_equal(    '5', Card.new(:spade,  5).value_to_s)
-		assert_equal(    '4', Card.new(:spade,  4).value_to_s)
-		assert_equal(    '3', Card.new(:spade,  3).value_to_s)
-		assert_equal(    '2', Card.new(:spade,  2).value_to_s)
-		assert_equal(  'ace', Card.new(:spade,  1).value_to_s)
+		assert_equal( 'king', Card.new(Suit::SPADE, 13).value_to_s)
+		assert_equal('queen', Card.new(Suit::SPADE, 12).value_to_s)
+		assert_equal( 'jack', Card.new(Suit::SPADE, 11).value_to_s)
+		assert_equal(   '10', Card.new(Suit::SPADE, 10).value_to_s)
+		assert_equal(    '9', Card.new(Suit::SPADE,  9).value_to_s)
+		assert_equal(    '8', Card.new(Suit::SPADE,  8).value_to_s)
+		assert_equal(    '7', Card.new(Suit::SPADE,  7).value_to_s)
+		assert_equal(    '6', Card.new(Suit::SPADE,  6).value_to_s)
+		assert_equal(    '5', Card.new(Suit::SPADE,  5).value_to_s)
+		assert_equal(    '4', Card.new(Suit::SPADE,  4).value_to_s)
+		assert_equal(    '3', Card.new(Suit::SPADE,  3).value_to_s)
+		assert_equal(    '2', Card.new(Suit::SPADE,  2).value_to_s)
+		assert_equal(  'ace', Card.new(Suit::SPADE,  1).value_to_s)
 	end
 
 	def test_suit_to_s
-		assert_equal(  'spades', Card.new(  :spade, 1).suit_to_s)
-		assert_equal('diamonds', Card.new(:diamond, 1).suit_to_s)
-		assert_equal(   'clubs', Card.new(   :club, 1).suit_to_s)
-		assert_equal(  'hearts', Card.new(  :heart, 1).suit_to_s)
-		assert_equal(   'error', Card.new(    :foo, 1).suit_to_s)
+		assert_equal(  'spades', Card.new(Suit::SPADE, 1).suit_to_s)
+		assert_equal('diamonds', Card.new(Suit::DIAMOND, 1).suit_to_s)
+		assert_equal(   'clubs', Card.new(Suit::CLUB, 1).suit_to_s)
+		assert_equal(  'hearts', Card.new(Suit::HEART, 1).suit_to_s)
+		assert_equal(   'error', Card.new(Suit.new(:foo), 1).suit_to_s)
 	end
 
 	def test_eql?
-		c1 = Card.new(:spade, 1)
-		c2 = Card.new(:spade, 1)
-		c3 = Card.new(:heart, 1)
-		c4 = Card.new(:spade, 2)
+		c1 = Card.new(Suit::SPADE, 1)
+		c2 = Card.new(Suit::SPADE, 1)
+		c3 = Card.new(Suit::HEART, 1)
+		c4 = Card.new(Suit::SPADE, 2)
 
 		assert(c1.eql? c1)
 		assert(c1.eql? c2)
