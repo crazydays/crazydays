@@ -1,7 +1,19 @@
+class InvalidSuitError < StandardError
+end
+
 class Suit
 	attr_accessor :value
 
 	def initialize(value)
+		case value
+		when :spade
+		when :diamond
+		when :club
+		when :heart
+		else
+			raise InvalidSuitError, "Unknown suit: " + value.to_s
+		end
+
 		@value = value
 	end
 
@@ -27,8 +39,6 @@ class Suit
 			"clubs"
 		when :heart
 			"hearts"
-		else
-			"error"
 		end
 	end
 

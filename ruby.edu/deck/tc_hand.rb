@@ -49,6 +49,55 @@ class TestHand < Test::Unit::TestCase
 		assert(c2.eql? hand.cards[1])
 	end
 
+	def test_insert_too_many
+		hand = Hand.new(1)
+
+		hand.insert(Card.new(Suit::SPADE, 1))
+		assert_raise (CardCountError) { hand.insert(Card.new(Suit::SPADE, 2)) }
+	end
+
+	def test_discard_no_cards
+		hand = Hand.new(5)
+		assert_raise(CardCountError) { hand.discard(0) }
+	end
+
+	def test_discard_first_card
+		hand = Hand.new(5)
+		hand.insert(Card.new(Suit::SPADE, 1))
+
+		hand.discard(0)
+
+		assert_equal(0, hand.cards.size)
+	end
+
+	def test_discard_second_card
+		hand = Hand.new(5)
+		hand.insert(Card.new(Suit::SPADE, 2))
+		hand.insert(Card.new(Suit::SPADE, 3))
+		hand.insert(Card.new(Suit::SPADE, 4))
+		hand.insert(Card.new(Suit::SPADE, 5))
+		hand.insert(Card.new(Suit::SPADE, 6))
+
+		hand.discard(1)
+
+		assert_equal(4, hand.cards.size)
+		assert_equal(4, hand.cards[1].value)
+	end
+
+	def test_discard_last_card
+		hand = Hand.new(5)
+		hand.insert(Card.new(Suit::SPADE, 2))
+		hand.insert(Card.new(Suit::SPADE, 3))
+		hand.insert(Card.new(Suit::SPADE, 4))
+		hand.insert(Card.new(Suit::SPADE, 5))
+		hand.insert(Card.new(Suit::SPADE, 6))
+
+		hand.discard(4)
+
+		assert_equal(4, hand.cards.size)
+		assert_equal(5, hand.cards[3].value)
+	end
+
 	def test_to_s
 		c1 = Card.new(Suit::SPADE, 1)
 		c2 = Card.new(Suit::SPADE, 2)
@@ -58,6 +107,10 @@ class TestHand < Test::Unit::TestCase
 		hand.insert(c1)
 
 		assert_equal("ace of spades, 2 of spades", hand.to_s)		
+	end
+
+	def test_discard
+		hand = Hand.new
 	end
 
 	def test_score
@@ -163,6 +216,9 @@ class TestHand < Test::Unit::TestCase
 	end
 
 	def test_straight_flush?
+		hand = Hand.new(5)
+		assert_raise(CardCountError) { hand.straight_flush? }
+
 		hand = Hand.new
 		hand.insert(Card.new(Suit::SPADE, 1))
 		hand.insert(Card.new(Suit::SPADE, 2))
@@ -192,6 +248,9 @@ class TestHand < Test::Unit::TestCase
 	end
 
 	def test_four_of_kind
+		hand = Hand.new(5)
+		assert_raise(CardCountError) { hand.four_of_kind? }
+
 		hand = Hand.new
 		hand.insert(Card.new(Suit::SPADE, 1))
 		hand.insert(Card.new(Suit::DIAMOND, 1))
@@ -221,6 +280,9 @@ class TestHand < Test::Unit::TestCase
 	end
 
 	def test_full_house?
+		hand = Hand.new(5)
+		assert_raise(CardCountError) { hand.full_house? }
+
 		hand = Hand.new
 		hand.insert(Card.new(Suit::SPADE, 1))
 		hand.insert(Card.new(Suit::HEART, 1))
@@ -250,6 +312,9 @@ class TestHand < Test::Unit::TestCase
 	end
 
 	def test_flush?
+		hand = Hand.new(5)
+		assert_raise(CardCountError) { hand.flush? }
+
 		hand = Hand.new
 		hand.insert(Card.new(Suit::SPADE, 1))
 		hand.insert(Card.new(Suit::SPADE, 2))
@@ -270,6 +335,9 @@ class TestHand < Test::Unit::TestCase
 	end
 
 	def test_straight?
+		hand = Hand.new(5)
+		assert_raise(CardCountError) { hand.straight? }
+
 		hand = Hand.new
 		hand.insert(Card.new(Suit::HEART, 1))
 		hand.insert(Card.new(Suit::SPADE, 2))
@@ -299,6 +367,9 @@ class TestHand < Test::Unit::TestCase
 	end
 
 	def test_three_of_kind?
+		hand = Hand.new(5)
+		assert_raise(CardCountError) { hand.three_of_kind? }
+
 		hand = Hand.new
 		hand.insert(Card.new(Suit::SPADE, 1))
 		hand.insert(Card.new(Suit::DIAMOND, 1))
@@ -337,6 +408,9 @@ class TestHand < Test::Unit::TestCase
 	end
 
 	def test_two_pair?
+		hand = Hand.new(5)
+		assert_raise(CardCountError) { hand.two_pair? }
+
 		hand = Hand.new
 		hand.insert(Card.new(Suit::SPADE, 2))
 		hand.insert(Card.new(Suit::DIAMOND, 2))
@@ -375,6 +449,9 @@ class TestHand < Test::Unit::TestCase
 	end
 
 	def test_pair?
+		hand = Hand.new(5)
+		assert_raise(CardCountError) { hand.pair? }
+
 		hand = Hand.new
 		hand.insert(Card.new(Suit::SPADE, 2))
 		hand.insert(Card.new(Suit::DIAMOND, 2))

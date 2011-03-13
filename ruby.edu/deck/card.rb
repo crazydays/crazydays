@@ -1,10 +1,14 @@
 require 'suit.rb'
 
+class InvalidCardError < StandardError
+end
+
 class Card
 	attr_accessor :suit, :value
 
 	def initialize(suit, value)
 		@suit = suit
+		raise InvalidCardError unless (1..13) === value
 		@value = value
 	end
 

@@ -36,8 +36,7 @@ class TestDeck < Test::Unit::TestCase
 		assert(c1.eql? Card.new(Suit::HEART, 13))
 
 		d1.cards = Array.new
-		c2 = d1.deal
-		assert_nil(c2)
+		assert_raise(OutOfCards) { d1.deal }
 	end
 
 	def test_eql?

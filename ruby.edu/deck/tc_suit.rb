@@ -5,6 +5,8 @@ class TestSuit < Test::Unit::TestCase
 	def test_initialize
 		suit = Suit.new(:spade)
 		assert_equal(:spade, suit.value)
+
+		assert_raise(InvalidSuitError) { s5 = Suit.new(:wrong) }
 	end
 
 	def test_isBlack?
@@ -32,8 +34,6 @@ class TestSuit < Test::Unit::TestCase
 		assert_equal("clubs", s3.to_s)
 		s4 = Suit.new(:heart)
 		assert_equal("hearts", s4.to_s)
-		s5 = Suit.new(:wrong)
-		assert_equal("error", s5.to_s)
 	end
 
 	def test_class_constants

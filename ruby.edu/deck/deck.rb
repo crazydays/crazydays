@@ -1,5 +1,8 @@
 require 'card.rb'
 
+class OutOfCards < StandardError
+end
+
 class Deck
 	attr_accessor :cards
 
@@ -19,6 +22,7 @@ class Deck
 	end
 
 	def deal
+		raise OutOfCards if self.empty?
 		@cards.pop
 	end
 

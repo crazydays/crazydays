@@ -1,16 +1,27 @@
 require 'card.rb'
 
+class CardCountError < StandardError
+end
+
 class Hand
 	attr_accessor :cards, :size
 
 	def initialize(size = 5)
-		@cards = Array.new
 		@size = size
+		@cards = Array.new
 	end
 
 	def insert(card)
+		raise CardCountError, "Too many cards" unless @cards.size < @size
 		@cards.push(card)
 		@cards = @cards.sort_by { |a| [a.value, a.suit.to_s] }
+	end
+
+	def discard(index)
+		raise CardCountError, "Not enough cards" unless index < @cards.size
+
+		@cards[index] = nil
+		@cards.compact!
 	end
 
 	def to_s
@@ -60,6 +71,7 @@ class Hand
 
 	# Check hand as four of kind, return card value
 	def four_of_kind?
+		raise CardCountError, "Not enough cards" unless @cards.size == @size
 		if @cards[0].value == @cards[3].value
 			@cards[3]
 		elsif @cards[1].value == @cards[4].value
@@ -68,6 +80,8 @@ class Hand
 	end
 
 	def full_house?
+		raise CardCountError, "Not enough cards" unless @cards.size == @size
+
 		if @cards[0].value == @cards[2].value &&
 		   @cards[3].value == @cards[4].value
 			@cards[2]
@@ -78,6 +92,8 @@ class Hand
 	end
 
 	def flush?
+		raise CardCountError, "Not enough cards" unless @cards.size == @size
+
 		if @cards[0].suit == @cards[1].suit &&
 		   @cards[2].suit == @cards[3].suit &&
 		   @cards[1].suit == @cards[4].suit &&
@@ -87,6 +103,8 @@ class Hand
 	end
 
 	def straight?
+		raise CardCountError, "Not enough cards" unless @cards.size == @size
+
 		if @cards[0].value ==  1 && @cards[4].value == 13 &&
 		   @cards[1].value == 10 && @cards[2].value == 11 &&
 		   @cards[3].value == 12
@@ -100,6 +118,8 @@ class Hand
 	end
 
 	def three_of_kind?
+		raise CardCountError, "Not enough cards" unless @cards.size == @size
+
 		if @cards[0].value == @cards[2].value
 			@cards[2]
 		elsif @cards[1].value == @cards[3].value
@@ -110,6 +130,8 @@ class Hand
 	end
 
 	def two_pair?
+		raise CardCountError, "Not enough cards" unless @cards.size == @size
+
 		if @cards[0].value == @cards[1].value
 			if cards[2].value == @cards[3].value
 				@cards[3]
@@ -125,6 +147,8 @@ class Hand
 	end
 
 	def pair?
+		raise CardCountError, "Not enough cards" unless @cards.size == @size
+
 		if @cards[0].value == @cards[1].value
 			@cards[1]
 		elsif @cards[1].value == @cards[2].value
@@ -144,3 +168,4 @@ class Hand
 		end
 	end
 end
+
