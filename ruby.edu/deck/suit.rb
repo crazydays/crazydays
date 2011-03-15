@@ -32,13 +32,13 @@ class Suit
 	def to_s
 		case @value
 		when :spade
-			"spades"
+			'spades'
 		when :diamond
-			"diamonds"
+			'diamonds'
 		when :club
-			"clubs"
+			'clubs'
 		when :heart
-			"hearts"
+			'hearts'
 		end
 	end
 
