@@ -19,7 +19,6 @@ class Hand
 
 	def discard(index)
 		raise CardCountError, "Not enough cards" unless index < @cards.size
-
 		@cards[index] = nil
 		@cards.compact!
 	end
