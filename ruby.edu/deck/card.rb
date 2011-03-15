@@ -19,13 +19,13 @@ class Card
 	def value_to_s
 		case @value
 		when 13
-			"king"
+			'king'
 		when 12
-			"queen"
+			'queen'
 		when 11
-			"jack"
+			'jack'
 		when 1
-			"ace"
+			'ace'
 		else
 			@value.to_s
 		end
