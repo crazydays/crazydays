@@ -1,12 +1,16 @@
+require 'ui.rb'
+require 'suit.rb'
+require 'card.rb'
 require 'poker.rb'
 require 'test/unit'
+require 'mocha'
 
 class TestHand < Test::Unit::TestCase
 	def test_initialize
 		poker = Poker.new
 		assert_equal(5, poker.players)
 
-		poker = Poker.new(7)
+		poker = Poker.new(UI.new, 7)
 		assert_equal(7, poker.players)
 	end
 
@@ -23,6 +27,7 @@ class TestHand < Test::Unit::TestCase
 
 	def test_deal
 		poker = Poker.new
+		poker.shuffle
 		poker.deal
 
 		assert_equal(27, poker.deck.cards.size)
@@ -31,8 +36,27 @@ class TestHand < Test::Unit::TestCase
 		end
 	end
 
+	def test_discard
+		ui = mock()
+		ui.expects(:print).with('ace of spades, 2 of spades, 4 of hearts, 5 of hearts, 6 of hearts').returns('')
+		ui.expects(:prompt).with('Discard?').returns('0,1')
+		poker = Poker.new(ui, 1)
+		poker.shuffle
+		poker.deal
+		poker.hands[1].cards[0] = Card.new(Suit::SPADE, 1)
+		poker.hands[1].cards[1] = Card.new(Suit::SPADE, 2)
+		poker.hands[1].cards[2] = Card.new(Suit::HEART, 4)
+		poker.hands[1].cards[3] = Card.new(Suit::HEART, 5)
+		poker.hands[1].cards[4] = Card.new(Suit::HEART, 6)
+
+		poker.discard
+
+		assert_equal(3, poker.hands[1].cards.size)
+	end
+
 	def test_redeal
 		poker = Poker.new
+		poker.shuffle
 		poker.deal
 
 		(1..poker.players).each do |i|
@@ -49,7 +73,8 @@ class TestHand < Test::Unit::TestCase
 
 	def test_winner
 		# first
-		poker = Poker.new(3)
+		poker = Poker.new(UI.new, 3)
+		poker.shuffle
 		poker.deal
 
 		poker.hands[1].cards[0] = Card.new(Suit::SPADE, 1)
@@ -75,7 +100,8 @@ class TestHand < Test::Unit::TestCase
 		assert_equal(poker.hands[1], result)
 
 		# middle
-		poker = Poker.new(3)
+		poker = Poker.new(UI.new, 3)
+		poker.shuffle
 		poker.deal
 
 		poker.hands[1].cards[0] = Card.new(Suit::HEART, 1)
@@ -101,7 +127,8 @@ class TestHand < Test::Unit::TestCase
 		assert_equal(poker.hands[2], result)
 
 		# last
-		poker = Poker.new(3)
+		poker = Poker.new(UI.new, 3)
+		poker.shuffle
 		poker.deal
 
 		poker.hands[1].cards[0] = Card.new(Suit::HEART, 1)

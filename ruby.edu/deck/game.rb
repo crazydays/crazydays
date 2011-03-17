@@ -1,10 +1,11 @@
+require 'ui_cmdln.rb'
 require 'poker'
 
-poker = Poker.new
+ui = CommandLineUI.new
+poker = Poker.new(ui)
 poker.shuffle
 poker.deal
 poker.discard
 poker.redeal
 poker.print
-winner = poker.winner
-puts winner.to_s
+poker.winner

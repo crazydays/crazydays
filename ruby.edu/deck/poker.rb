@@ -1,3 +1,4 @@
+require 'ui.rb'
 require 'deck.rb'
 require 'card.rb'
 require 'hand.rb'
@@ -5,7 +6,8 @@ require 'hand.rb'
 class Poker
 	attr_accessor :players, :deck, :hands
 
-	def initialize(players = 5)
+	def initialize(ui = UI.new, players = 5)
+		@ui = ui
 		@players = players
 	end
 
@@ -15,7 +17,6 @@ class Poker
 	end
 
 	def deal
-		shuffle
 		@hands = Array.new
 		(1..@players).each { |i| @hands[i] = Hand.new }
 		(1..5).each do
@@ -27,9 +28,8 @@ class Poker
 
 	def discard
 		(1..@players).each do |i|
-			puts @hands[i].to_s
-			puts 'Discard?'
-			discard = gets.chomp.split(/, */).sort.reverse
+			@ui.print @hands[i].to_s
+			discard = @ui.prompt('Discard?').chomp.split(/, */).sort.reverse
 			discard.each do |x|
 				@hands[i].discard(x.to_i)
 			end
@@ -45,7 +45,7 @@ class Poker
 	end
 
 	def print
-		(1..@players).each { |i| puts @hands[i].to_s }
+		(1..@players).each { |i| @ui.print(@hands[i].to_s) }
 	end
 
 	def winner
@@ -54,6 +54,7 @@ class Poker
 			winner = winner.score < hands[i].score ? hands[i] : winner
 		end
 
+		@ui.print "Winner! #{winner}"
 		winner
 	end
 end
