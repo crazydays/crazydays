@@ -71,6 +71,28 @@ class TestHand < Test::Unit::TestCase
 		end
 	end
 
+	def test_print
+		ui = mock()
+		ui.expects(:print).with('ace of spades, 2 of spades, 4 of hearts, 5 of hearts, 6 of hearts').returns('')
+		ui.expects(:print).with('5 of spades, 6 of spades, 7 of hearts, 8 of hearts, 9 of hearts').returns('')
+
+		poker = Poker.new(ui, 2)
+		poker.shuffle
+		poker.deal
+		poker.hands[1].cards[0] = Card.new(Suit::SPADE, 1)
+		poker.hands[1].cards[1] = Card.new(Suit::SPADE, 2)
+		poker.hands[1].cards[2] = Card.new(Suit::HEART, 4)
+		poker.hands[1].cards[3] = Card.new(Suit::HEART, 5)
+		poker.hands[1].cards[4] = Card.new(Suit::HEART, 6)
+		poker.hands[2].cards[0] = Card.new(Suit::SPADE, 5)
+		poker.hands[2].cards[1] = Card.new(Suit::SPADE, 6)
+		poker.hands[2].cards[2] = Card.new(Suit::HEART, 7)
+		poker.hands[2].cards[3] = Card.new(Suit::HEART, 8)
+		poker.hands[2].cards[4] = Card.new(Suit::HEART, 9)
+
+		poker.print
+	end
+
 	def test_winner
 		# first
 		poker = Poker.new(UI.new, 3)
