@@ -36,7 +36,7 @@ class TestHand < Test::Unit::TestCase
 		end
 	end
 
-	def test_discard
+	def test_discard_prime
 		ui = mock()
 		ui.expects(:print).with('ace of spades, 2 of spades, 4 of hearts, 5 of hearts, 6 of hearts').returns('')
 		ui.expects(:prompt).with('Discard?').returns('0,1')
