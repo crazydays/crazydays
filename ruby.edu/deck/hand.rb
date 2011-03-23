@@ -3,9 +3,10 @@ require 'card_count.rb'
 require 'pair.rb'
 require 'two_pair.rb'
 require 'three_kind.rb'
+require 'straight.rb'
 
 class Hand
-	include Pair, TwoPair, ThreeKind
+	include Pair, TwoPair, ThreeKind, Straight
 
 	attr_accessor :cards, :size
 
@@ -101,21 +102,6 @@ class Hand
 		   @cards[1].suit == @cards[4].suit &&
 		   @cards[3].suit == @cards[4].suit
 			@cards[4]
-		end
-	end
-
-	def straight?
-		raise CardCountError, "Not enough cards" unless @cards.size == @size
-
-		if @cards[0].value ==  1 && @cards[4].value == 13 &&
-		   @cards[1].value == 10 && @cards[2].value == 11 &&
-		   @cards[3].value == 12
-			high_card?
-		elsif (@cards[0].value + 1) == @cards[1].value &&
-		      (@cards[0].value + 2) == @cards[2].value &&
-		      (@cards[0].value + 3) == @cards[3].value &&
-		      (@cards[0].value + 4) == @cards[4].value
-			high_card?
 		end
 	end
 
