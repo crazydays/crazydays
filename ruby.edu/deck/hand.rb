@@ -1,9 +1,11 @@
 require 'card.rb'
-
-class CardCountError < StandardError
-end
+require 'card_count.rb'
+require 'pair.rb'
+require 'two_pair.rb'
 
 class Hand
+	include Pair, TwoPair
+
 	attr_accessor :cards, :size
 
 	def initialize(size = 5)
@@ -124,37 +126,6 @@ class Hand
 		elsif @cards[1].value == @cards[3].value
 			@cards[3]
 		elsif @cards[2].value == @cards[4].value
-			@cards[4]
-		end
-	end
-
-	def two_pair?
-		raise CardCountError, "Not enough cards" unless @cards.size == @size
-
-		if @cards[0].value == @cards[1].value
-			if cards[2].value == @cards[3].value
-				@cards[3]
-			elsif cards[3].value == @cards[4].value
-				@cards[4]
-			end
-		else
-			if @cards[1].value == @cards[2].value &&
-			   @cards[3].value == @cards[4].value
-				cards[4]
-			end
-		end
-	end
-
-	def pair?
-		raise CardCountError, "Not enough cards" unless @cards.size == @size
-
-		if @cards[0].value == @cards[1].value
-			@cards[1]
-		elsif @cards[1].value == @cards[2].value
-			@cards[2]
-		elsif @cards[2].value == @cards[3].value
-			@cards[3]
-		elsif @cards[3].value == @cards[4].value
 			@cards[4]
 		end
 	end

@@ -53,7 +53,7 @@ class TestHand < Test::Unit::TestCase
 		hand = Hand.new(1)
 
 		hand.insert(Card.new(Suit::SPADE, 1))
-		assert_raise (CardCountError) { hand.insert(Card.new(Suit::SPADE, 2)) }
+		assert_raise(CardCountError) { hand.insert(Card.new(Suit::SPADE, 2)) }
 	end
 
 	def test_discard_no_cards
