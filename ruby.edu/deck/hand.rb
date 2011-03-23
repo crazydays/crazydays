@@ -2,9 +2,10 @@ require 'card.rb'
 require 'card_count.rb'
 require 'pair.rb'
 require 'two_pair.rb'
+require 'three_kind.rb'
 
 class Hand
-	include Pair, TwoPair
+	include Pair, TwoPair, ThreeKind
 
 	attr_accessor :cards, :size
 
@@ -115,18 +116,6 @@ class Hand
 		      (@cards[0].value + 3) == @cards[3].value &&
 		      (@cards[0].value + 4) == @cards[4].value
 			high_card?
-		end
-	end
-
-	def three_of_kind?
-		raise CardCountError, "Not enough cards" unless @cards.size == @size
-
-		if @cards[0].value == @cards[2].value
-			@cards[2]
-		elsif @cards[1].value == @cards[3].value
-			@cards[3]
-		elsif @cards[2].value == @cards[4].value
-			@cards[4]
 		end
 	end
 
