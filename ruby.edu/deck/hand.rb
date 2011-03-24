@@ -4,9 +4,10 @@ require 'pair.rb'
 require 'two_pair.rb'
 require 'three_kind.rb'
 require 'straight.rb'
+require 'flush.rb'
 
 class Hand
-	include Pair, TwoPair, ThreeKind, Straight
+	include Pair, TwoPair, ThreeKind, Straight, Flush
 
 	attr_accessor :cards, :size
 
@@ -90,17 +91,6 @@ class Hand
 			@cards[2]
 		elsif @cards[0].value == @cards[1].value &&
 		      @cards[2].value == @cards[4].value
-			@cards[4]
-		end
-	end
-
-	def flush?
-		raise CardCountError, "Not enough cards" unless @cards.size == @size
-
-		if @cards[0].suit == @cards[1].suit &&
-		   @cards[2].suit == @cards[3].suit &&
-		   @cards[1].suit == @cards[4].suit &&
-		   @cards[3].suit == @cards[4].suit
 			@cards[4]
 		end
 	end
