@@ -5,9 +5,10 @@ require 'two_pair.rb'
 require 'three_kind.rb'
 require 'straight.rb'
 require 'flush.rb'
+require 'full_house.rb'
 
 class Hand
-	include Pair, TwoPair, ThreeKind, Straight, Flush
+	include Pair, TwoPair, ThreeKind, Straight, Flush, FullHouse
 
 	attr_accessor :cards, :size
 
@@ -79,18 +80,6 @@ class Hand
 		if @cards[0].value == @cards[3].value
 			@cards[3]
 		elsif @cards[1].value == @cards[4].value
-			@cards[4]
-		end
-	end
-
-	def full_house?
-		raise CardCountError, "Not enough cards" unless @cards.size == @size
-
-		if @cards[0].value == @cards[2].value &&
-		   @cards[3].value == @cards[4].value
-			@cards[2]
-		elsif @cards[0].value == @cards[1].value &&
-		      @cards[2].value == @cards[4].value
 			@cards[4]
 		end
 	end

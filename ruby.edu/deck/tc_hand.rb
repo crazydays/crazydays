@@ -308,7 +308,7 @@ class TestHand < Test::Unit::TestCase
 		hand.insert(Card.new(Suit::SPADE, 2))
 		hand.insert(Card.new(Suit::SPADE, 3))
 
-		assert(! hand.full_house?)
+		assert_nil(hand.full_house?)
 	end
 
 	def test_flush?
