@@ -61,48 +61,19 @@ class TestFullHouse < Test::Unit::TestCase
 		assert_equal(8, card.value)
 	end
 
-	def test_cards_by_value
+	def test_7_eight_extra_three_full_house?
 		hand = FullHouseHand.new(7)
 
 		hand.cards[0] = Card.new(Suit::SPADE, 3)
 		hand.cards[1] = Card.new(Suit::HEART, 3)
-		hand.cards[2] = Card.new(Suit::CLUB, 4)
+		hand.cards[2] = Card.new(Suit::CLUB, 3)
 		hand.cards[3] = Card.new(Suit::SPADE, 5)
 		hand.cards[4] = Card.new(Suit::DIAMOND, 8)
 		hand.cards[5] = Card.new(Suit::CLUB, 8)
 		hand.cards[6] = Card.new(Suit::SPADE, 8)
 
-		cards = hand.cards_by_value()
-
-		assert_not_nil(cards)
-		assert(2, cards[3].size);		
-		assert(1, cards[4].size);		
-		assert(1, cards[5].size);		
-		assert(3, cards[8].size);		
-	end
-
-	def test_find_best_pair
-		hand = FullHouseHand.new(7)
-
-		hand.cards[0] = Card.new(Suit::SPADE, 3)
-		hand.cards[1] = Card.new(Suit::HEART, 3)
-		hand.cards[2] = Card.new(Suit::CLUB, 4)
-		hand.cards[3] = Card.new(Suit::SPADE, 5)
-		hand.cards[4] = Card.new(Suit::DIAMOND, 8)
-		hand.cards[5] = Card.new(Suit::CLUB, 8)
-		hand.cards[6] = Card.new(Suit::SPADE, 8)
-
-		cards = hand.cards_by_value()
-
-		assert_not_nil(cards)
-		assert(2, cards[3].size);		
-		assert(1, cards[4].size);		
-		assert(1, cards[5].size);		
-		assert(3, cards[8].size);		
-
-		threes = hand.find_best_pair(cards)
-		assert_not_nil(threes)
-		assert_equal(2, threes.size)		
-		assert_equal(3, threes[0].value)
+		card = hand.full_house?
+		assert_not_nil(card)
+		assert_equal(8, card.value)
 	end
 end

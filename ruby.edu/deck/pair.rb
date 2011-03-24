@@ -1,4 +1,5 @@
 require 'card_count.rb'
+require 'card_sort.rb'
 
 module Pair
 	include CardCount
@@ -6,17 +7,15 @@ module Pair
 	def pair?
 		assert_full_hand
 
-		if @cards[0].value == 1 && @cards[0].value == @cards[1].value
-			@cards[1]
-		else
-			high = nil
-			(1..(@cards.size - 1)).each do |i|
-				if @cards[i].value == @cards[i - 1].value
-					high = @cards[i]
-				end
-			end
+		pair = nil
+		values = CardSort.by_value(@cards)
 
-			high
+		[(2..13).to_a, 1].flatten!.each do |i|
+			if values[i].size == 2
+				pair = values[i]
+			end
 		end
+
+		pair[1] unless pair == nil
 	end
 end

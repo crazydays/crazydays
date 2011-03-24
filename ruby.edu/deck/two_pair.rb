@@ -1,4 +1,5 @@
 require 'card_count.rb'
+require 'card_sort.rb'
 
 module TwoPair
 	include CardCount
@@ -7,32 +8,19 @@ module TwoPair
 		assert_full_hand
 
 		high = nil
+		low = nil
+		values = CardSort.by_value(@cards)
 
-		if @cards[0].value == 1 && @cards[1].value == 1
-			(2..(@cards.size - 1)).each do |i|
-				if @cards[i].value == @cards[i - 1].value
-					high = @cards[1]
-				end
-			end
-		else
-			first = nil
-
-			(1..(@cards.size - 1)).each do |i|
-				if @cards[i].value == @cards[i - 1].value
-					first = i + 1
-					break
-				end
-			end
-
-			unless first == nil
-				(first..(cards.size - 1)).each do |i|
-					if @cards[i].value == @cards[i - 1].value
-						high = @cards[i]
-					end
+		[(2..13).to_a, 1].flatten!.reverse!.each do |i|
+			if values[i].size == 2
+				if high == nil
+					high = values[i]
+				elsif low == nil
+					low = values[i]
 				end
 			end
 		end
 
-		high
+		high[1] unless low == nil
 	end
 end

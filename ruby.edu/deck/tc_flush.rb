@@ -73,22 +73,4 @@ class TestFlush < Test::Unit::TestCase
 		assert_not_nil(card)
 		assert_equal(13, card.value)
 	end
-
-	def test_cards_by_suit
-		hand = FlushHand.new(5)
-		hand.cards[0] = Card.new(Suit::SPADE, 1)
-		hand.cards[1] = Card.new(Suit::SPADE, 3)
-		hand.cards[2] = Card.new(Suit::SPADE, 5)
-		hand.cards[3] = Card.new(Suit::SPADE, 7)
-		hand.cards[4] = Card.new(Suit::SPADE, 9)
-
-		suits = hand.cards_by_suit()
-
-		assert_not_nil(suits)
-		assert_equal(1, suits.size)
-		assert_not_nil(suits[Suit::SPADE])
-		assert_equal(1, suits.size)
-		assert_equal(Suit::SPADE, suits.keys[0])
-		assert_equal(5, suits[Suit::SPADE].size)
-	end
 end
