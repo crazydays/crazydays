@@ -6,9 +6,10 @@ require 'three_kind.rb'
 require 'straight.rb'
 require 'flush.rb'
 require 'full_house.rb'
+require 'four_kind.rb'
 
 class Hand
-	include Pair, TwoPair, ThreeKind, Straight, Flush, FullHouse
+	include Pair, TwoPair, ThreeKind, Straight, Flush, FullHouse, FourKind
 
 	attr_accessor :cards, :size
 
@@ -71,16 +72,6 @@ class Hand
 	def straight_flush?
 		if straight? && flush?
 			high_card?
-		end
-	end
-
-	# Check hand as four of kind, return card value
-	def four_of_kind?
-		raise CardCountError, "Not enough cards" unless @cards.size == @size
-		if @cards[0].value == @cards[3].value
-			@cards[3]
-		elsif @cards[1].value == @cards[4].value
-			@cards[4]
 		end
 	end
 
