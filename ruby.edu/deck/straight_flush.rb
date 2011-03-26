@@ -25,18 +25,7 @@ module StraightFlush
 	end
 
 	def check_straight(cards)
-		inorder = 0
-		max = nil
-
-		[(1..13).to_a, 1].flatten!.each do |i|
-			if cards[i].size > 0
-				inorder += 1
-				max = cards[i].last unless inorder < 5
-			else
-				inorder = 0
-			end
-		end
-
-		max
+		run = CardSort.find_run(cards)
+		run.last unless run == nil
 	end
 end

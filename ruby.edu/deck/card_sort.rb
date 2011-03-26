@@ -26,6 +26,7 @@ module CardSort
 			end
 		end
 
+		best = current unless current.size < size
 		best
 	end
 end

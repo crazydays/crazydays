@@ -67,7 +67,7 @@ class TestFlush < Test::Unit::TestCase
 		end
 	end
 
-	def test_find_run
+	def test_find_run_ace_to_seven
 		cards = Array.new
 		cards << Card.new(Suit::SPADE, 1)
 		cards << Card.new(Suit::SPADE, 2)
@@ -82,5 +82,35 @@ class TestFlush < Test::Unit::TestCase
 		assert_not_nil(result)
 		assert_instance_of(Array, result)
 		assert_equal(7, result.size)
+	end
+
+	def test_find_run_five_nine
+		cards = Array.new
+		cards << Card.new(Suit::SPADE, 5)
+		cards << Card.new(Suit::SPADE, 6)
+		cards << Card.new(Suit::SPADE, 7)
+		cards << Card.new(Suit::SPADE, 8)
+		cards << Card.new(Suit::SPADE, 9)
+
+		result = CardSort.find_run(CardSort.by_value(cards), 5)
+
+		assert_not_nil(result)
+		assert_instance_of(Array, result)
+		assert_equal(5, result.size)
+	end
+
+	def test_find_run_ten_ace
+		cards = Array.new
+		cards << Card.new(Suit::SPADE, 1)
+		cards << Card.new(Suit::SPADE, 10)
+		cards << Card.new(Suit::SPADE, 11)
+		cards << Card.new(Suit::SPADE, 12)
+		cards << Card.new(Suit::SPADE, 13)
+
+		result = CardSort.find_run(CardSort.by_value(cards), 5)
+
+		assert_not_nil(result)
+		assert_instance_of(Array, result)
+		assert_equal(5, result.size)
 	end
 end
