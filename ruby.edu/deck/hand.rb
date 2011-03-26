@@ -7,9 +7,10 @@ require 'straight.rb'
 require 'flush.rb'
 require 'full_house.rb'
 require 'four_kind.rb'
+require 'straight_flush.rb'
 
 class Hand
-	include Pair, TwoPair, ThreeKind, Straight, Flush, FullHouse, FourKind
+	include Pair, TwoPair, ThreeKind, Straight, Flush, FullHouse, FourKind, StraightFlush
 
 	attr_accessor :cards, :size
 
@@ -66,13 +67,6 @@ class Hand
 
 	def score_card(card)
 		card.value == 1 ? 14 : card.value
-	end
-
-	# Check hand as straight flush, return high card
-	def straight_flush?
-		if straight? && flush?
-			high_card?
-		end
 	end
 
 	def high_card?
