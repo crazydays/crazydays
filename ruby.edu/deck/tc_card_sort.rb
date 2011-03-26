@@ -66,4 +66,21 @@ class TestFlush < Test::Unit::TestCase
 			assert_equal(4, result[i].size)
 		end
 	end
+
+	def test_find_run
+		cards = Array.new
+		cards << Card.new(Suit::SPADE, 1)
+		cards << Card.new(Suit::SPADE, 2)
+		cards << Card.new(Suit::SPADE, 3)
+		cards << Card.new(Suit::SPADE, 4)
+		cards << Card.new(Suit::SPADE, 5)
+		cards << Card.new(Suit::SPADE, 6)
+		cards << Card.new(Suit::SPADE, 7)
+
+		result = CardSort.find_run(CardSort.by_value(cards), 5)
+
+		assert_not_nil(result)
+		assert_instance_of(Array, result)
+		assert_equal(7, result.size)
+	end
 end
