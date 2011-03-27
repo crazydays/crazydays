@@ -7,14 +7,8 @@ module Pair
 	def pair?
 		assert_full_hand
 
-		pair = nil
 		values = CardSort.by_value(@cards)
-
-		[(2..13).to_a, 1].flatten!.each do |i|
-			if values[i].size == 2
-				pair = values[i]
-			end
-		end
+		pair = CardSort.find_match(values, 2)
 
 		pair[1] unless pair == nil
 	end
