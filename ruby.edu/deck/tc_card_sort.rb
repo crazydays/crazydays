@@ -67,6 +67,90 @@ class TestFlush < Test::Unit::TestCase
 		end
 	end
 
+	def test_find_match_pair_no_cards
+		cards = Array.new
+
+		result = CardSort.find_match(CardSort.by_value(cards), 2)
+
+		assert_nil(result)
+	end
+
+	def test_find_match_pair_no_cards
+		cards = Array.new
+
+		result = CardSort.find_match(CardSort.by_value(cards), 2)
+		cards << Card.new(Suit::SPADE, 1)
+		cards << Card.new(Suit::SPADE, 3)
+		cards << Card.new(Suit::SPADE, 5)
+		cards << Card.new(Suit::SPADE, 7)
+		cards << Card.new(Suit::SPADE, 9)
+
+		assert_nil(result)
+	end
+
+	def test_find_match_pair
+		cards = Array.new
+		cards << Card.new(Suit::SPADE, 1)
+		cards << Card.new(Suit::HEART, 1)
+
+		result = CardSort.find_match(CardSort.by_value(cards), 2)
+
+		assert_not_nil(result)
+		assert_equal(2, result.size)
+	end
+
+	def test_find_match_pair_aces
+		cards = Array.new
+		cards << Card.new(Suit::SPADE, 1)
+		cards << Card.new(Suit::HEART, 1)
+
+		result = CardSort.find_match(CardSort.by_value(cards), 2)
+
+		assert_not_nil(result)
+		assert_equal(2, result.size)
+		assert_equal(1, result[0].value)
+	end
+
+	def test_find_match_pair_tens
+		cards = Array.new
+		cards << Card.new(Suit::SPADE, 10)
+		cards << Card.new(Suit::HEART, 10)
+
+		result = CardSort.find_match(CardSort.by_value(cards), 2)
+
+		assert_not_nil(result)
+		assert_equal(2, result.size)
+		assert_equal(10, result[0].value)
+	end
+
+	def test_find_match_pair_tens
+		cards = Array.new
+		cards << Card.new(Suit::SPADE, 9)
+		cards << Card.new(Suit::SPADE, 10)
+		cards << Card.new(Suit::HEART, 10)
+		cards << Card.new(Suit::SPADE, 11)
+
+		result = CardSort.find_match(CardSort.by_value(cards), 2)
+
+		assert_not_nil(result)
+		assert_equal(2, result.size)
+		assert_equal(10, result[0].value)
+	end
+
+	def test_find_match_pair_twos
+		cards = Array.new
+		cards << Card.new(Suit::SPADE, 1)
+		cards << Card.new(Suit::SPADE, 2)
+		cards << Card.new(Suit::HEART, 2)
+		cards << Card.new(Suit::SPADE, 11)
+
+		result = CardSort.find_match(CardSort.by_value(cards), 2)
+
+		assert_not_nil(result)
+		assert_equal(2, result.size)
+		assert_equal(2, result[0].value)
+	end
+
 	def test_find_run_ace_to_seven
 		cards = Array.new
 		cards << Card.new(Suit::SPADE, 1)

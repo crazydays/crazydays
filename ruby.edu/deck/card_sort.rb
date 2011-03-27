@@ -13,6 +13,19 @@ module CardSort
 		values
 	end
 
+	def CardSort.find_match(cards, size)
+		match = nil
+
+		[(2..13).to_a, 1].flatten!.reverse!.each do |i|
+			if cards[i].size == size
+				match = cards[i]
+				break
+			end
+		end
+
+		match
+	end
+
 	def CardSort.find_run(cards, size = 5)
 		best = nil
 		current = Array.new
