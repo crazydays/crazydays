@@ -75,7 +75,7 @@ class TestFlush < Test::Unit::TestCase
 		assert_nil(result)
 	end
 
-	def test_find_match_pair_no_cards
+	def test_find_match_pair_no_pairs
 		cards = Array.new
 
 		result = CardSort.find_match(CardSort.by_value(cards), 2)
@@ -123,7 +123,7 @@ class TestFlush < Test::Unit::TestCase
 		assert_equal(10, result[0].value)
 	end
 
-	def test_find_match_pair_tens
+	def test_find_match_pair_tens_extra_cards
 		cards = Array.new
 		cards << Card.new(Suit::SPADE, 9)
 		cards << Card.new(Suit::SPADE, 10)
