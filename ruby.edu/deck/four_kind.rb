@@ -7,14 +7,8 @@ module FourKind
 	def four_of_kind?
 		assert_full_hand
 
-		four = nil
 		values = CardSort.by_value(@cards)
-
-		[(2..13).to_a, 1].flatten!.each do |i|
-			if values[i].size == 4
-				four = values[i]
-			end
-		end
+		four = CardSort.find_match(values, 4)
 
 		four.last unless four == nil
 	end
