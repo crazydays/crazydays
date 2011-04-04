@@ -408,9 +408,6 @@ class TestHand < Test::Unit::TestCase
 	end
 
 	def test_two_pair?
-		hand = Hand.new(5)
-		assert_raise(CardCountError) { hand.two_pair? }
-
 		hand = Hand.new
 		hand.insert(Card.new(Suit::SPADE, 2))
 		hand.insert(Card.new(Suit::DIAMOND, 2))
@@ -449,9 +446,6 @@ class TestHand < Test::Unit::TestCase
 	end
 
 	def test_pair?
-		hand = Hand.new(5)
-		assert_raise(CardCountError) { hand.pair? }
-
 		hand = Hand.new
 		hand.insert(Card.new(Suit::SPADE, 2))
 		hand.insert(Card.new(Suit::DIAMOND, 2))

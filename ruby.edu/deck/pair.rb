@@ -1,15 +1,16 @@
-require 'card_count.rb'
 require 'card_sort.rb'
 
 module Pair
-	include CardCount
+  def Pair.match?(cards)
+    CardSort.find_match(CardSort.by_value(cards), 2)
+  end
 
-	def pair?
-		assert_full_hand
-
-		values = CardSort.by_value(@cards)
-		pair = CardSort.find_match(values, 2)
-
-		pair[1] unless pair == nil
-	end
+  def Pair.score(cards, pair, modifier = 1000)
+    score = 0
+    score += modifier
+    score += CardSort.score(CardSort.remainder(cards, pair), 3)
+    score += 5 * 15
+    score += pair.first.value == 1 ? 14 : pair.first.value
+    score
+  end
 end

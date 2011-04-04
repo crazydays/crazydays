@@ -10,7 +10,7 @@ require 'four_kind.rb'
 require 'straight_flush.rb'
 
 class Hand
-	include Pair, TwoPair, ThreeKind, Straight, Flush, FullHouse, FourKind, StraightFlush
+	include TwoPair, ThreeKind, Straight, Flush, FullHouse, FourKind, StraightFlush
 
 	attr_accessor :cards, :size
 
@@ -21,7 +21,7 @@ class Hand
 
 	def insert(card)
 		raise CardCountError, "Too many cards" unless @cards.size < @size
-		@cards.push(card)
+		@cards << card
 		@cards = @cards.sort_by { |a| [a.value, a.suit.to_s] }
 	end
 
@@ -75,6 +75,11 @@ class Hand
 		else
 			@cards[4]
 		end
+	end
+	
+	def pair?
+	  cards = Pair.match?(@cards)
+	  cards.last unless cards == nil
 	end
 end
 
