@@ -1,9 +1,8 @@
 require 'hand.rb'
 require 'pair.rb'
+require 'high_card.rb'
 
 class PokerEvaluator
-  include Pair
-
   attr_accessor :hand
 
   def initialize(hand)
@@ -11,20 +10,11 @@ class PokerEvaluator
   end
 
   def score
-    
-  end
-
-  def high_card()
-    sorted = CardSort.by_value(@hand.cards)
-
-    cards = Array.new
-
-    [(2..13).to_a, 1].flatten!.reverse!.each do |i|
-      cards << sorted[i]
-      cards.flatten!
-      break if cards.size == 5
+    match = Pair.match?(@hand.cards)
+    if match
+      Pair.score(@hand.cards, match)
+    else
+      HighCard.score(@hand.cards)
     end
-    
-    cards
   end
 end
