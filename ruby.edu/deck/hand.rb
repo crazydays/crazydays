@@ -10,7 +10,7 @@ require 'four_kind.rb'
 require 'straight_flush.rb'
 
 class Hand
-	include TwoPair, ThreeKind, Straight, Flush, FullHouse, FourKind, StraightFlush
+	include ThreeKind, Straight, Flush, FullHouse, FourKind, StraightFlush
 
 	attr_accessor :cards, :size
 
@@ -81,5 +81,10 @@ class Hand
 	  cards = Pair.match?(@cards)
 	  cards.last unless cards == nil
 	end
+
+        def two_pair?
+          cards = TwoPair.match?(@cards)
+          cards.first.last unless cards == nil
+        end
 end
 

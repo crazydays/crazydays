@@ -1,26 +1,25 @@
-require 'card_count.rb'
 require 'card_sort.rb'
+require 'pair.rb'
 
 module TwoPair
-	include CardCount
+  def TwoPair.match?(cards)
+    high = Pair.match?(cards)
+    if high
+      low = Pair.match?(CardSort.remainder(cards, high))
+      [high, low] unless low == nil
+    else
+      nil
+    end
+  end
 
-	def two_pair?
-		assert_full_hand
-
-		high = nil
-		low = nil
-		values = CardSort.by_value(@cards)
-
-		[(2..13).to_a, 1].flatten!.reverse!.each do |i|
-			if values[i].size == 2
-				if high == nil
-					high = values[i]
-				elsif low == nil
-					low = values[i]
-				end
-			end
-		end
-
-		high[1] unless low == nil
-	end
+  def TwoPair.score(cards, match, modifier = 2000)
+    score = 0
+    score += modifier
+    score += CardSort.score(CardSort.remainder(cards, match.flatten), 1)
+    score += 3 * 15
+    score += match[1][0].value == 1 ? 14 : match[1][0].value
+    score += 5 * 15
+    score += match[0][0].value == 1 ? 14 : match[0][0].value
+    score
+  end
 end

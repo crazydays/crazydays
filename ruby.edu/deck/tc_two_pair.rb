@@ -1,83 +1,105 @@
 require 'two_pair.rb'
-require 'card.rb'
 require 'test/unit'
 
-class TwoPairHand
-	attr_accessor :size, :cards
-	include TwoPair
-
-	def initialize(size)
-		@size = size
-		@cards = Array.new
-	end
-end
-
 class TestPair < Test::Unit::TestCase
-	def test_5_not_full_two_pair?
-		hand = TwoPairHand.new(5)
-		assert_raise(CardCountError) { hand.two_pair? }
-	end
+  def test_match_no_cards
+    cards = Array.new
 
-	def test_5_no_pairs_two_pair?
-		hand = TwoPairHand.new(5)
-		hand.cards[0] = Card.new(Suit::SPADE, 1)
-		hand.cards[1] = Card.new(Suit::DIAMOND, 2)
-		hand.cards[2] = Card.new(Suit::CLUB, 4)
-		hand.cards[3] = Card.new(Suit::HEART, 5)
-		hand.cards[4] = Card.new(Suit::SPADE, 7)
+    result = TwoPair.match?(cards)
 
-		assert_nil(hand.two_pair?)
-	end
+    assert_nil(result);
+  end
 
-	def test_5_deadman_pairs_two_pair?
-		hand = TwoPairHand.new(5)
-		hand.cards[0] = Card.new(Suit::SPADE, 1)
-		hand.cards[1] = Card.new(Suit::CLUB, 1)
-		hand.cards[2] = Card.new(Suit::CLUB, 8)
-		hand.cards[3] = Card.new(Suit::SPADE, 8)
-		hand.cards[4] = Card.new(Suit::SPADE, 12)
+  def test_match_no_pair
+    cards = Array.new
+    cards << Card.new(Suit::SPADE, 2)
+    cards << Card.new(Suit::DIAMOND, 4)
+    cards << Card.new(Suit::CLUB, 6)
+    cards << Card.new(Suit::HEART, 8)
+    cards << Card.new(Suit::SPADE, 10)
 
-		card = hand.two_pair?
-		assert_not_nil(card)
-		assert_equal(1, card.value)
-	end
+    result = TwoPair.match?(cards)
 
-	def test_5_two_and_eight_end_two_pair?
-		hand = TwoPairHand.new(5)
-		hand.cards[0] = Card.new(Suit::SPADE, 2)
-		hand.cards[1] = Card.new(Suit::CLUB, 2)
-		hand.cards[2] = Card.new(Suit::CLUB, 8)
-		hand.cards[3] = Card.new(Suit::SPADE, 8)
-		hand.cards[4] = Card.new(Suit::SPADE, 12)
+    assert_nil(result);
+  end
 
-		card = hand.two_pair?
-		assert_not_nil(card)
-		assert_equal(8, card.value)
-	end
+  def test_match_one_pair
+    cards = Array.new
+    cards << Card.new(Suit::SPADE, 4)
+    cards << Card.new(Suit::DIAMOND, 4)
+    cards << Card.new(Suit::CLUB, 6)
+    cards << Card.new(Suit::HEART, 8)
+    cards << Card.new(Suit::SPADE, 10)
 
-	def test_5_two_and_eight_middle_two_pair?
-		hand = TwoPairHand.new(5)
-		hand.cards[0] = Card.new(Suit::SPADE, 2)
-		hand.cards[1] = Card.new(Suit::CLUB, 2)
-		hand.cards[2] = Card.new(Suit::CLUB, 6)
-		hand.cards[3] = Card.new(Suit::SPADE, 8)
-		hand.cards[4] = Card.new(Suit::DIAMOND, 8)
+    result = TwoPair.match?(cards)
 
-		card = hand.two_pair?
-		assert_not_nil(card)
-		assert_equal(8, card.value)
-	end
+    assert_nil(result);
+  end
 
-	def test_5_two_and_eight_start_two_pair?
-		hand = TwoPairHand.new(5)
-		hand.cards[0] = Card.new(Suit::SPADE, 1)
-		hand.cards[1] = Card.new(Suit::HEART, 2)
-		hand.cards[2] = Card.new(Suit::CLUB, 2)
-		hand.cards[3] = Card.new(Suit::SPADE, 8)
-		hand.cards[4] = Card.new(Suit::DIAMOND, 8)
+  def test_match_two_pair_0_2
+    cards = Array.new
+    cards << Card.new(Suit::SPADE, 2)
+    cards << Card.new(Suit::DIAMOND, 2)
+    cards << Card.new(Suit::CLUB, 4)
+    cards << Card.new(Suit::HEART, 4)
+    cards << Card.new(Suit::SPADE, 10)
 
-		card = hand.two_pair?
-		assert_not_nil(card)
-		assert_equal(8, card.value)
-	end
+    result = TwoPair.match?(cards)
+
+    assert_not_nil(result);
+    assert_equal(2, result.size)
+    assert_equal(4, result[0][0].value)
+    assert_equal(4, result[0][1].value)
+    assert_equal(2, result[1][0].value)
+    assert_equal(2, result[1][1].value)
+  end
+
+  def test_match_two_pair_0_3
+    cards = Array.new
+    cards << Card.new(Suit::SPADE, 2)
+    cards << Card.new(Suit::DIAMOND, 2)
+    cards << Card.new(Suit::SPADE, 3)
+    cards << Card.new(Suit::CLUB, 4)
+    cards << Card.new(Suit::HEART, 4)
+
+    result = TwoPair.match?(cards)
+
+    assert_not_nil(result);
+    assert_equal(2, result.size)
+    assert_equal(4, result[0][0].value)
+    assert_equal(4, result[0][1].value)
+    assert_equal(2, result[1][0].value)
+    assert_equal(2, result[1][1].value)
+  end
+
+  def test_match_two_pair_1_3
+    cards = Array.new
+    cards << Card.new(Suit::SPADE, 1)
+    cards << Card.new(Suit::SPADE, 2)
+    cards << Card.new(Suit::DIAMOND, 2)
+    cards << Card.new(Suit::CLUB, 4)
+    cards << Card.new(Suit::HEART, 4)
+
+    result = TwoPair.match?(cards)
+
+    assert_not_nil(result);
+    assert_equal(2, result.size)
+    assert_equal(4, result[0][0].value)
+    assert_equal(4, result[0][1].value)
+    assert_equal(2, result[1][0].value)
+    assert_equal(2, result[1][1].value)
+  end
+
+  def test_score_2_13
+    cards = Array.new()
+    cards << Card.new(Suit::SPADE, 2)
+    cards << Card.new(Suit::HEART, 2)
+    cards << Card.new(Suit::SPADE, 6)
+    cards << Card.new(Suit::HEART, 13)
+    cards << Card.new(Suit::SPADE, 13)
+
+    result = TwoPair.score(cards, TwoPair.match?(cards))
+
+    assert_equal(2156, result)
+  end
 end
