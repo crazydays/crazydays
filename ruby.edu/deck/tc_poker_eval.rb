@@ -20,7 +20,7 @@ class TestPokerEvaluator < Test::Unit::TestCase
 
     result = evaluator.score()
 
-    assert_equal(265, result)
+    assert_equal(737420, result)
   end
 
   def test_score_pair
@@ -34,7 +34,7 @@ class TestPokerEvaluator < Test::Unit::TestCase
 
     result = evaluator.score()
 
-    assert_equal(1199, result)
+    assert_equal(1256402, result)
   end
 
   def test_score_two_pair
@@ -48,6 +48,20 @@ class TestPokerEvaluator < Test::Unit::TestCase
 
     result = evaluator.score()
 
-    assert_equal(2162, result)
+    assert_equal(2710555, result)
+  end
+
+  def test_score_three_kind
+    hand = Hand.new
+    hand.insert(Card.new(Suit::SPADE, 1))
+    hand.insert(Card.new(Suit::HEART, 5))
+    hand.insert(Card.new(Suit::SPADE, 5))
+    hand.insert(Card.new(Suit::CLUB, 5))
+    hand.insert(Card.new(Suit::SPADE, 8))
+    evaluator = PokerEvaluator.new(hand)
+
+    result = evaluator.score()
+
+    assert_equal(3253343, result)
   end
 end

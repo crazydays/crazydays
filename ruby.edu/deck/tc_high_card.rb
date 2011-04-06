@@ -50,6 +50,6 @@ class TestHighCard < Test::Unit::TestCase
 
     result = HighCard.score(cards)
 
-    assert_equal(269, result)
+    assert_equal(751368, result)
   end
 end

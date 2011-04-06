@@ -220,9 +220,9 @@ class TestFlush < Test::Unit::TestCase
     cards << Card.new(Suit::SPADE, 5)
     cards << Card.new(Suit::SPADE, 7)
 
-    result = CardSort.score(cards)
+    result = CardSort.score_cards(cards)
 
-    assert_equal(256, result)
+    assert_equal(733547, result)
   end
 
   def test_score_without_ace()
@@ -233,9 +233,9 @@ class TestFlush < Test::Unit::TestCase
     cards << Card.new(Suit::SPADE, 7)
     cards << Card.new(Suit::SPADE, 10)
 
-    result = CardSort.score(cards)
+    result = CardSort.score_cards(cards)
 
-    assert_equal(252, result)
+    assert_equal(531047, result)
   end
 
   def test_score_without_ace_six_cards()
@@ -247,9 +247,9 @@ class TestFlush < Test::Unit::TestCase
     cards << Card.new(Suit::SPADE, 10)
     cards << Card.new(Suit::SPADE, 11)
 
-    result = CardSort.score(cards)
+    result = CardSort.score_cards(cards)
 
-    assert_equal(261, result)
+    assert_equal(592278, result)
   end
 
   def test_score_without_ace_three_cards()
@@ -258,9 +258,9 @@ class TestFlush < Test::Unit::TestCase
     cards << Card.new(Suit::SPADE, 10)
     cards << Card.new(Suit::SPADE, 11)
 
-    result = CardSort.score(cards)
+    result = CardSort.score_cards(cards)
 
-    assert_equal(118, result)
+    assert_equal(2632, result)
   end
 end
 

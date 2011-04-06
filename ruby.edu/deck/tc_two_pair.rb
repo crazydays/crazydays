@@ -1,7 +1,7 @@
 require 'two_pair.rb'
 require 'test/unit'
 
-class TestPair < Test::Unit::TestCase
+class TestTwoPair < Test::Unit::TestCase
   def test_match_no_cards
     cards = Array.new
 
@@ -100,6 +100,6 @@ class TestPair < Test::Unit::TestCase
 
     result = TwoPair.score(cards, TwoPair.match?(cards))
 
-    assert_equal(2156, result)
+    assert_equal(2658581, result)
   end
 end

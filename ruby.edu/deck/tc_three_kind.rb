@@ -2,70 +2,55 @@ require 'three_kind.rb'
 require 'card.rb'
 require 'test/unit'
 
-class ThreeKindHand
-	attr_accessor :size, :cards
-	include ThreeKind
-
-	def initialize(size)
-		@size = size
-		@cards = Array.new
-	end
-end
-
 class TestThreeKind < Test::Unit::TestCase
-	def test_5_not_full_three_of_kind?
-		hand = ThreeKindHand.new(5)
-		assert_raise(CardCountError) { hand.three_of_kind? }
-	end
+  def test_match_no_cards
+    cards = Array.new
 
-	def test_5_no_three_of_kind?
-		hand = ThreeKindHand.new(5)
-		hand.cards[0] = Card.new(Suit::SPADE, 1);
-		hand.cards[1] = Card.new(Suit::HEART, 3);
-		hand.cards[2] = Card.new(Suit::CLUB, 5);
-		hand.cards[3] = Card.new(Suit::DIAMOND, 7);
-		hand.cards[4] = Card.new(Suit::SPADE, 9);
+    results = ThreeKind.match?(cards)
 
-		card = hand.three_of_kind?
-		assert_nil(card)
-	end
+    assert_nil(results)
+  end
 
-	def test_5_first_three_of_kind?
-		hand = ThreeKindHand.new(5)
-		hand.cards[0] = Card.new(Suit::SPADE, 1);
-		hand.cards[1] = Card.new(Suit::HEART, 1);
-		hand.cards[2] = Card.new(Suit::CLUB, 1);
-		hand.cards[3] = Card.new(Suit::DIAMOND, 7);
-		hand.cards[4] = Card.new(Suit::SPADE, 9);
+  def test_match_no_triplet
+    cards = Array.new
+    cards << Card.new(Suit::SPADE, 1)
+    cards << Card.new(Suit::DIAMOND, 3)
+    cards << Card.new(Suit::CLUB, 5)
+    cards << Card.new(Suit::HEART, 7)
+    cards << Card.new(Suit::SPADE, 9)
 
-		card = hand.three_of_kind?
-		assert_not_nil(card)
-		assert_equal(1, card.value)
-	end
+    results = ThreeKind.match?(cards)
 
-	def test_5_middle_three_of_kind?
-		hand = ThreeKindHand.new(5)
-		hand.cards[0] = Card.new(Suit::SPADE, 1);
-		hand.cards[1] = Card.new(Suit::HEART, 5);
-		hand.cards[2] = Card.new(Suit::CLUB, 5);
-		hand.cards[3] = Card.new(Suit::DIAMOND, 5);
-		hand.cards[4] = Card.new(Suit::SPADE, 9);
+    assert_nil(results)
+  end
 
-		card = hand.three_of_kind?
-		assert_not_nil(card)
-		assert_equal(5, card.value)
-	end
+  def test_match_triplet
+    cards = Array.new
+    cards << Card.new(Suit::SPADE, 1)
+    cards << Card.new(Suit::DIAMOND, 3)
+    cards << Card.new(Suit::CLUB, 9)
+    cards << Card.new(Suit::HEART, 9)
+    cards << Card.new(Suit::SPADE, 9)
 
-	def test_5_end_three_of_kind?
-		hand = ThreeKindHand.new(5)
-		hand.cards[0] = Card.new(Suit::SPADE, 1);
-		hand.cards[1] = Card.new(Suit::HEART, 3);
-		hand.cards[2] = Card.new(Suit::CLUB, 5);
-		hand.cards[3] = Card.new(Suit::DIAMOND, 5);
-		hand.cards[4] = Card.new(Suit::SPADE, 5);
+    results = ThreeKind.match?(cards)
 
-		card = hand.three_of_kind?
-		assert_not_nil(card)
-		assert_equal(5, card.value)
-	end
+    assert_not_nil(results)
+    assert_equal(9, results[0].value)
+    assert_equal(9, results[1].value)
+    assert_equal(9, results[2].value)
+  end
+
+  def test_score_nines
+    cards = Array.new
+    cards << Card.new(Suit::SPADE, 1)
+    cards << Card.new(Suit::DIAMOND, 3)
+    cards << Card.new(Suit::CLUB, 9)
+    cards << Card.new(Suit::HEART, 9)
+    cards << Card.new(Suit::SPADE, 9)
+    match = ThreeKind.match?(cards)
+
+    result = ThreeKind.score(cards, match)
+
+    assert_equal(3455838, result)
+  end
 end

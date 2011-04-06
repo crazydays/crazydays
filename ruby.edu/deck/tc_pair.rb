@@ -64,6 +64,6 @@ class TestPair < Test::Unit::TestCase
 
     result = Pair.score(cards, Pair.match?(cards))
 
-    assert_equal(1190, result)
+    assert_equal(1659537, result)
   end
 end

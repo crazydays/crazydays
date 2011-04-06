@@ -12,14 +12,12 @@ module TwoPair
     end
   end
 
-  def TwoPair.score(cards, match, modifier = 2000)
+  def TwoPair.score(cards, match, modifier = 2000000)
     score = 0
     score += modifier
-    score += CardSort.score(CardSort.remainder(cards, match.flatten), 1)
-    score += 3 * 15
-    score += match[1][0].value == 1 ? 14 : match[1][0].value
-    score += 5 * 15
-    score += match[0][0].value == 1 ? 14 : match[0][0].value
+    score += CardSort.score_card(match[0].first, 5)
+    score += CardSort.score_card(match[1].first, 3)
+    score += CardSort.score_cards(CardSort.remainder(cards, match.flatten), 1)
     score
   end
 end

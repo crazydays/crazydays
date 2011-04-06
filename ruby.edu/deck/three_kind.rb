@@ -1,15 +1,15 @@
-require 'card_count.rb'
 require 'card_sort.rb'
 
 module ThreeKind
-	include CardCount
+  def ThreeKind.match?(cards)
+    CardSort.find_match(CardSort.by_value(cards), 3)
+  end
 
-	def three_of_kind?
-		assert_full_hand
-
-		values = CardSort.by_value(@cards)
-		triplet = CardSort.find_match(values, 3)
-
-		triplet[2] unless triplet == nil
-	end
+  def ThreeKind.score(cards, match, modifier = 3000000)
+    score = 0
+    score += modifier
+    score += CardSort.score_card(match.first, 5)
+    score += CardSort.score_cards(CardSort.remainder(cards, match), 2)
+    score
+  end
 end

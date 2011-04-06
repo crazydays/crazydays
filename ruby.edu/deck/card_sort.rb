@@ -47,18 +47,22 @@ module CardSort
     cards - matched
   end
 
-  def CardSort.score(cards, count = 5)
+  def CardSort.score_cards(cards, count = 5)
     score = 0
     values = CardSort.by_value(cards)
-    count = [cards.size, count].min
+    place = [cards.size, count].min
     [(2..13).to_a, 1].flatten!.reverse!.each do |i|
       if values[i].size > 0
-        score += (15 * count) + (values[i].first.value == 1 ? 14 : values[i].first.value)
-        count -= 1
+        score += CardSort.score_card(values[i].first, place)
+        place -= 1
       end
 
-      break unless count > 0
+      break unless place > 0
     end
     score
+  end
+
+  def CardSort.score_card(card, place)
+    (15 ** (place - 1)) * (card.value == 1 ? 14 : card.value)
   end
 end

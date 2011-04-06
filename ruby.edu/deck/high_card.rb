@@ -13,6 +13,6 @@ module HighCard
   end
 
   def HighCard.score(cards, modifier = 0)
-    CardSort.score(cards, 5)
+    CardSort.score_cards(cards, 5)
   end
 end
