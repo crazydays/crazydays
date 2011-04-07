@@ -1,25 +1,19 @@
-require 'card_count.rb'
 require 'card_sort.rb'
 
 module FullHouse
-	include CardCount
+  def FullHouse.match?(cards)
+    triplet = CardSort.find_match(CardSort.by_value(cards), 3)
+    unless triplet == nil
+      pair = CardSort.find_match(CardSort.by_value(CardSort.remainder(cards, triplet)), 2)
+      [triplet, pair] unless pair == nil
+    end
+  end
 
-	def full_house?
-		assert_full_hand
-
-
-		triplet = nil
-		pair = nil
-		values = CardSort.by_value(@cards)
-
-		[(2..13).to_a, 1].flatten!.reverse!.each do |i|
-			if triplet == nil && values[i].size == 3
-				triplet = values[i]
-			elsif pair == nil && values[i].size >= 2
-				pair = values[i]
-			end
-		end
-
-		triplet.last unless triplet == nil || pair == nil
-	end
+  def FullHouse.score(cards, match, modifier = 6000000)
+    score = 0
+    score += modifier
+    score += CardSort.score_card(match[0].first, 5)
+    score += CardSort.score_card(match[1].first, 2)
+    score
+  end
 end

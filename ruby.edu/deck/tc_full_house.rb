@@ -2,78 +2,58 @@ require 'full_house.rb'
 require 'card.rb'
 require 'test/unit'
 
-class FullHouseHand
-	attr_accessor :size, :cards
-	include FullHouse
-
-	def initialize(size)
-		@size = size
-		@cards = Array.new
-	end
-end
-
 class TestFullHouse < Test::Unit::TestCase
-	def test_5_not_full_full_house?
-		hand = FullHouseHand.new(5)
-		assert_raise(CardCountError) { hand.full_house? }
-	end
+  def test_match_no_cards()
+    cards = Array.new
 
-	def test_not_5_full_house?
-		hand = FullHouseHand.new(5)
+    result = FullHouse.match?(cards)
 
-		hand.cards[0] = Card.new(Suit::SPADE, 1)
-		hand.cards[1] = Card.new(Suit::HEART, 3)
-		hand.cards[2] = Card.new(Suit::SPADE, 5)
-		hand.cards[3] = Card.new(Suit::SPADE, 7)
-		hand.cards[4] = Card.new(Suit::SPADE, 9)
+    assert_nil(result)
+  end
 
-		card = hand.full_house?
-		assert_nil(card)
-	end
+  def test_match_not_fullhouse()
+    cards = Array.new
+    cards << Card.new(Suit::SPADE, 1)
+    cards << Card.new(Suit::SPADE, 3)
+    cards << Card.new(Suit::HEART, 3)
+    cards << Card.new(Suit::SPADE, 6)
+    cards << Card.new(Suit::HEART, 6)
 
-	def test_5_ace_three_full_house?
-		hand = FullHouseHand.new(5)
+    result = FullHouse.match?(cards)
 
-		hand.cards[0] = Card.new(Suit::SPADE, 1)
-		hand.cards[1] = Card.new(Suit::HEART, 1)
-		hand.cards[2] = Card.new(Suit::CLUB, 1)
-		hand.cards[3] = Card.new(Suit::SPADE, 3)
-		hand.cards[4] = Card.new(Suit::DIAMOND, 3)
+    assert_nil(result)
+  end
 
-		card = hand.full_house?
-		assert_not_nil(card)
-		assert_equal(1, card.value)
-	end
+  def test_match_fullhouse_3_6()
+    cards = Array.new
+    cards << Card.new(Suit::SPADE, 3)
+    cards << Card.new(Suit::SPADE, 3)
+    cards << Card.new(Suit::HEART, 3)
+    cards << Card.new(Suit::SPADE, 6)
+    cards << Card.new(Suit::HEART, 6)
 
-	def test_7_eight_three_full_house?
-		hand = FullHouseHand.new(7)
+    result = FullHouse.match?(cards)
 
-		hand.cards[0] = Card.new(Suit::SPADE, 3)
-		hand.cards[1] = Card.new(Suit::HEART, 3)
-		hand.cards[2] = Card.new(Suit::CLUB, 4)
-		hand.cards[3] = Card.new(Suit::SPADE, 5)
-		hand.cards[4] = Card.new(Suit::DIAMOND, 8)
-		hand.cards[5] = Card.new(Suit::CLUB, 8)
-		hand.cards[6] = Card.new(Suit::SPADE, 8)
+    assert_not_nil(result)
+    assert_equal(2, result.size)
+    assert_equal(3, result[0][0].value)
+    assert_equal(3, result[0][1].value)
+    assert_equal(3, result[0][2].value)
+    assert_equal(6, result[1][0].value)
+    assert_equal(6, result[1][1].value)
+  end
 
-		card = hand.full_house?
-		assert_not_nil(card)
-		assert_equal(8, card.value)
-	end
+  def test_score
+    cards = Array.new
+    cards << Card.new(Suit::SPADE, 3)
+    cards << Card.new(Suit::SPADE, 3)
+    cards << Card.new(Suit::HEART, 3)
+    cards << Card.new(Suit::SPADE, 6)
+    cards << Card.new(Suit::HEART, 6)
+    match = FullHouse.match?(cards)
 
-	def test_7_eight_extra_three_full_house?
-		hand = FullHouseHand.new(7)
+    result = FullHouse.score(cards, match)
 
-		hand.cards[0] = Card.new(Suit::SPADE, 3)
-		hand.cards[1] = Card.new(Suit::HEART, 3)
-		hand.cards[2] = Card.new(Suit::CLUB, 3)
-		hand.cards[3] = Card.new(Suit::SPADE, 5)
-		hand.cards[4] = Card.new(Suit::DIAMOND, 8)
-		hand.cards[5] = Card.new(Suit::CLUB, 8)
-		hand.cards[6] = Card.new(Suit::SPADE, 8)
-
-		card = hand.full_house?
-		assert_not_nil(card)
-		assert_equal(8, card.value)
-	end
+    assert_equal(6151965, result)
+  end
 end

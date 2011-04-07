@@ -10,7 +10,7 @@ require 'four_kind.rb'
 require 'straight_flush.rb'
 
 class Hand
-  include FullHouse, FourKind, StraightFlush
+  include FourKind, StraightFlush
 
   attr_accessor :cards, :size
 
@@ -99,6 +99,11 @@ class Hand
   def flush?
     cards = Flush.match?(@cards)
     cards.first unless cards == nil
+  end
+
+  def full_house?
+    cards = FullHouse.match?(@cards)
+    cards.first.first unless cards == nil
   end
 end
 

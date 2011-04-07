@@ -13,7 +13,9 @@ class PokerEvaluator
   end
 
   def score
-    if match = Flush.match?(@hand.cards)
+    if match = FullHouse.match?(@hand.cards)
+      FullHouse.score(@hand.cards, match)
+    elsif match = Flush.match?(@hand.cards)
       Flush.score(@hand.cards, match)
     elsif match = Straight.match?(@hand.cards)
       Straight.score(@hand.cards, match)
