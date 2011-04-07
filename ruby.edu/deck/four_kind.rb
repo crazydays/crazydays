@@ -1,15 +1,15 @@
-require 'card_count.rb'
 require 'card_sort.rb'
 
 module FourKind
-	include CardCount
+  def FourKind.match?(cards)
+    CardSort.find_match(CardSort.by_value(cards), 4)
+  end
 
-	def four_of_kind?
-		assert_full_hand
-
-		values = CardSort.by_value(@cards)
-		four = CardSort.find_match(values, 4)
-
-		four.last unless four == nil
-	end
+  def FourKind.score(cards, match, modifier = 7000000)
+    score = 0
+    score += modifier
+    score += CardSort.score_card(match.first, 5)
+    score += CardSort.score_cards(CardSort.remainder(cards, match), 1)
+    score
+  end
 end

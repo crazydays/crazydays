@@ -2,80 +2,62 @@ require 'four_kind.rb'
 require 'card.rb'
 require 'test/unit'
 
-class FourKindHand
-	attr_accessor :size, :cards
-	include FourKind
-
-	def initialize(size)
-		@size = size
-		@cards = Array.new
-	end
-end
-
 class TestFourKind < Test::Unit::TestCase
-	def test_5_not_full_four_of_kind?
-		hand = FourKindHand.new(5)
-		assert_raise(CardCountError) { hand.four_of_kind? }
-	end
+  def test_match_no_cards
+    cards = Array.new()
 
-	def test_5_not_four_of_kind?
-		hand = FourKindHand.new(5)
+    result = FourKind.match?(cards)
+    assert_nil(result)
+  end
 
-		hand.cards[0] = Card.new(Suit::SPADE, 1)
-		hand.cards[1] = Card.new(Suit::HEART, 1)
-		hand.cards[2] = Card.new(Suit::SPADE, 2)
-		hand.cards[3] = Card.new(Suit::SPADE, 3)
-		hand.cards[4] = Card.new(Suit::SPADE, 4)
+  def test_match_hand_four_aces
+    cards = Array.new()
+    cards << Card.new(Suit::SPADE, 1)
+    cards << Card.new(Suit::HEART, 1)
+    cards << Card.new(Suit::DIAMOND, 1)
+    cards << Card.new(Suit::CLUB, 1)
+    cards << Card.new(Suit::SPADE, 4)
 
-		assert_nil(hand.four_of_kind?)
-	end
+    result = FourKind.match?(cards)
 
-	def test_5_aces_four_of_kind?
-		hand = FourKindHand.new(5)
+    assert_not_nil(result)
+    assert_equal(4, result.size)
+    assert_equal(1, result[0].value)
+    assert_equal(1, result[1].value)
+    assert_equal(1, result[2].value)
+    assert_equal(1, result[3].value)
+  end
 
-		hand.cards[0] = Card.new(Suit::SPADE, 1)
-		hand.cards[1] = Card.new(Suit::DIAMOND, 1)
-		hand.cards[2] = Card.new(Suit::CLUB, 1)
-		hand.cards[3] = Card.new(Suit::HEART, 1)
-		hand.cards[4] = Card.new(Suit::SPADE, 4)
+  def test_match_hand_four_kings
+    cards = Array.new()
+    cards << Card.new(Suit::SPADE, 1)
+    cards << Card.new(Suit::HEART, 13)
+    cards << Card.new(Suit::SPADE, 13)
+    cards << Card.new(Suit::CLUB, 13)
+    cards << Card.new(Suit::DIAMOND, 13)
 
-		card = hand.four_of_kind?
+    result = FourKind.match?(cards)
 
-		assert_not_nil(card)
-		assert_equal(1, card.value)
-	end
+    assert_not_nil(result)
+    assert_equal(4, result.size)
+    assert_equal(13, result[0].value)
+    assert_equal(13, result[1].value)
+    assert_equal(13, result[2].value)
+    assert_equal(13, result[3].value)
+  end
 
-	def test_7_two_four_of_kind?
-		hand = FourKindHand.new(7)
+  def test_score
+    cards = Array.new()
+    cards << Card.new(Suit::SPADE, 2)
+    cards << Card.new(Suit::HEART, 13)
+    cards << Card.new(Suit::SPADE, 13)
+    cards << Card.new(Suit::HEART, 13)
+    cards << Card.new(Suit::SPADE, 13)
+    match = FourKind.match?(cards)
+    
+    result = FourKind.score(cards, match)
 
-		hand.cards[0] = Card.new(Suit::SPADE, 1)
-		hand.cards[1] = Card.new(Suit::HEART, 2)
-		hand.cards[2] = Card.new(Suit::CLUB, 2)
-		hand.cards[3] = Card.new(Suit::DIAMOND, 2)
-		hand.cards[4] = Card.new(Suit::SPADE, 2)
-		hand.cards[5] = Card.new(Suit::HEART, 6)
-		hand.cards[6] = Card.new(Suit::SPADE, 7)
+    assert_equal(7658127, result)
+  end
 
-		card = hand.four_of_kind?
-
-		assert_not_nil(card)
-		assert_equal(2, card.value)
-	end
-
-	def test_7_seven_four_of_kind?
-		hand = FourKindHand.new(7)
-
-		hand.cards[0] = Card.new(Suit::SPADE, 1)
-		hand.cards[1] = Card.new(Suit::HEART, 2)
-		hand.cards[2] = Card.new(Suit::CLUB, 2)
-		hand.cards[3] = Card.new(Suit::SPADE, 7)
-		hand.cards[4] = Card.new(Suit::DIAMOND, 7)
-		hand.cards[5] = Card.new(Suit::CLUB, 7)
-		hand.cards[6] = Card.new(Suit::HEART, 7)
-
-		card = hand.four_of_kind?
-
-		assert_not_nil(card)
-		assert_equal(7, card.value)
-	end
 end

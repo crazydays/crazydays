@@ -248,8 +248,6 @@ class TestHand < Test::Unit::TestCase
 	end
 
 	def test_four_of_kind
-		hand = Hand.new(5)
-		assert_raise(CardCountError) { hand.four_of_kind? }
 
 		hand = Hand.new
 		hand.insert(Card.new(Suit::SPADE, 1))
