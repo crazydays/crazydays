@@ -1,22 +1,32 @@
 require 'suit.rb'
-require 'card_count.rb'
 require 'card_sort.rb'
 
 module Flush
-	include CardCount
+  def Flush.match?(cards)
+    flush = nil
 
-	def flush?
-		assert_full_hand
+    suits = CardSort.by_suit(cards)
+    suits.values.each do |suit|
+      if suit.size >= 5
+        flush = suit
+      end
+    end
 
-		flush = nil
-		suits = CardSort.by_suit(@cards)
+    unless flush == nil
+      ordered = Array.new
+      values = CardSort.by_value(flush)
+      [(2..13).to_a, 1].flatten!.reverse!.each do |i|
+        ordered << values[i]
+      end
 
-		suits.values.each do |cards|
-			if cards.size >= 5
-				flush = cards
-			end
-		end
+      ordered.flatten!.slice(0, 5)
+    end
+  end
 
-		flush[0].value == 1 ? flush[0] : flush.last unless flush == nil
-	end
+  def Flush.score(cards, match, modifier = 5000000)
+    score = 0
+    score += modifier
+    score += CardSort.score_cards(cards, 5)
+    score
+  end
 end

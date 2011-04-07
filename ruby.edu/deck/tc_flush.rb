@@ -2,75 +2,78 @@ require 'flush.rb'
 require 'card.rb'
 require 'test/unit'
 
-class FlushHand
-	attr_accessor :size, :cards
-	include Flush
-
-	def initialize(size)
-		@size = size
-		@cards = Array.new
-	end
-end
-
 class TestFlush < Test::Unit::TestCase
-	def test_5_not_full_flush?
-		hand = FlushHand.new(5)
-		assert_raise(CardCountError) { hand.flush? }
-	end
+  def test_match_no_cards()
+    cards = Array.new
 
-	def test_5_not_flush?
-		hand = FlushHand.new(5)
+    result = Flush.match?(cards)
 
-		hand.cards[0] = Card.new(Suit::SPADE, 1)
-		hand.cards[1] = Card.new(Suit::HEART, 3)
-		hand.cards[2] = Card.new(Suit::SPADE, 5)
-		hand.cards[3] = Card.new(Suit::SPADE, 7)
-		hand.cards[4] = Card.new(Suit::SPADE, 9)
+    assert_nil(result)
+  end
 
-		assert_nil(hand.flush?)
-	end
+  def test_match_not_flush()
+    cards = Array.new
+    cards << Card.new(Suit::SPADE, 1)
+    cards << Card.new(Suit::DIAMOND, 3)
+    cards << Card.new(Suit::CLUB, 5)
+    cards << Card.new(Suit::HEART, 7)
+    cards << Card.new(Suit::SPADE, 9)
 
-	def test_5_spades_ace_flush?
-		hand = FlushHand.new(5)
+    result = Flush.match?(cards)
 
-		hand.cards[0] = Card.new(Suit::SPADE, 1)
-		hand.cards[1] = Card.new(Suit::SPADE, 3)
-		hand.cards[2] = Card.new(Suit::SPADE, 5)
-		hand.cards[3] = Card.new(Suit::SPADE, 7)
-		hand.cards[4] = Card.new(Suit::SPADE, 9)
+    assert_nil(result)
+  end
 
-		card = hand.flush?
-		assert_not_nil(card)
-		assert_equal(1, card.value)
-	end
+  def test_match_spades()
+    cards = Array.new
+    cards << Card.new(Suit::SPADE, 1)
+    cards << Card.new(Suit::SPADE, 3)
+    cards << Card.new(Suit::SPADE, 5)
+    cards << Card.new(Suit::SPADE, 7)
+    cards << Card.new(Suit::SPADE, 9)
 
-	def test_5_spades_jack_flush?
-		hand = FlushHand.new(5)
+    result = Flush.match?(cards)
 
-		hand.cards[0] = Card.new(Suit::SPADE, 3)
-		hand.cards[1] = Card.new(Suit::SPADE, 5)
-		hand.cards[2] = Card.new(Suit::SPADE, 7)
-		hand.cards[3] = Card.new(Suit::SPADE, 9)
-		hand.cards[4] = Card.new(Suit::SPADE, 11)
+    assert_not_nil(result)
+    assert_equal(5, result.size)
+    assert_equal(1, result[0].value)
+    assert_equal(9, result[1].value)
+    assert_equal(7, result[2].value)
+    assert_equal(5, result[3].value)
+    assert_equal(3, result[4].value)
+  end
 
-		card = hand.flush?
-		assert_not_nil(card)
-		assert_equal(11, card.value)
-	end
+  def test_match_spades_six()
+    cards = Array.new
+    cards << Card.new(Suit::SPADE, 1)
+    cards << Card.new(Suit::SPADE, 2)
+    cards << Card.new(Suit::SPADE, 3)
+    cards << Card.new(Suit::SPADE, 5)
+    cards << Card.new(Suit::SPADE, 7)
+    cards << Card.new(Suit::SPADE, 9)
 
-	def test_5_spades_king_flush?
-		hand = FlushHand.new(7)
+    result = Flush.match?(cards)
 
-		hand.cards[0] = Card.new(Suit::SPADE, 3)
-		hand.cards[1] = Card.new(Suit::HEART, 5)
-		hand.cards[2] = Card.new(Suit::HEART, 7)
-		hand.cards[3] = Card.new(Suit::SPADE, 9)
-		hand.cards[4] = Card.new(Suit::SPADE, 11)
-		hand.cards[5] = Card.new(Suit::SPADE, 12)
-		hand.cards[6] = Card.new(Suit::SPADE, 13)
+    assert_not_nil(result)
+    assert_equal(5, result.size)
+    assert_equal(1, result[0].value)
+    assert_equal(9, result[1].value)
+    assert_equal(7, result[2].value)
+    assert_equal(5, result[3].value)
+    assert_equal(3, result[4].value)
+  end
 
-		card = hand.flush?
-		assert_not_nil(card)
-		assert_equal(13, card.value)
-	end
+  def test_score
+    cards = Array.new
+    cards << Card.new(Suit::SPADE, 1)
+    cards << Card.new(Suit::SPADE, 3)
+    cards << Card.new(Suit::SPADE, 5)
+    cards << Card.new(Suit::SPADE, 7)
+    cards << Card.new(Suit::SPADE, 9)
+    match = Flush.match?(cards)
+
+    result = Flush.score(cards, match)
+
+    assert_equal(5740778, result)
+  end
 end

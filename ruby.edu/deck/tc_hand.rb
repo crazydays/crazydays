@@ -312,9 +312,6 @@ class TestHand < Test::Unit::TestCase
 	end
 
 	def test_flush?
-		hand = Hand.new(5)
-		assert_raise(CardCountError) { hand.flush? }
-
 		hand = Hand.new
 		hand.insert(Card.new(Suit::SPADE, 1))
 		hand.insert(Card.new(Suit::SPADE, 2))

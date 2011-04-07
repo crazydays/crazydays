@@ -78,4 +78,18 @@ class TestPokerEvaluator < Test::Unit::TestCase
 
     assert_equal(4303750, result)
   end
+
+  def test_score_flush()
+    hand = Hand.new
+    hand.insert(Card.new(Suit::SPADE, 3))
+    hand.insert(Card.new(Suit::SPADE, 5))
+    hand.insert(Card.new(Suit::SPADE, 7))
+    hand.insert(Card.new(Suit::SPADE, 9))
+    hand.insert(Card.new(Suit::SPADE, 11))
+    evaluator = PokerEvaluator.new(hand)
+
+    result = evaluator.score()
+
+    assert_equal(5588903, result)
+  end
 end

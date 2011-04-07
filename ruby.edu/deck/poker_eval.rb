@@ -13,7 +13,9 @@ class PokerEvaluator
   end
 
   def score
-    if match = Straight.match?(@hand.cards)
+    if match = Flush.match?(@hand.cards)
+      Flush.score(@hand.cards, match)
+    elsif match = Straight.match?(@hand.cards)
       Straight.score(@hand.cards, match)
     elsif match = ThreeKind.match?(@hand.cards)
       ThreeKind.score(@hand.cards, match)
