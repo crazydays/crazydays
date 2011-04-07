@@ -1,14 +1,14 @@
-require 'card_count.rb'
 require 'card_sort.rb'
 
 module Straight
-	include CardCount
+  def Straight.match?(cards)
+    CardSort.find_run(CardSort.by_value(cards))
+  end
 
-	def straight?
-		assert_full_hand
-
-		values = CardSort.by_value(@cards)
-		run = CardSort.find_run(values)
-		run.last unless run == nil
-	end
+  def Straight.score(cards, match, modifier = 4000000)
+    score = 0
+    score += modifier
+    score += CardSort.score_card(match.last, 5)
+    score
+  end
 end

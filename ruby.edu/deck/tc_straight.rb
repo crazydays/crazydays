@@ -2,90 +2,104 @@ require 'straight.rb'
 require 'card.rb'
 require 'test/unit'
 
-class StraightHand
-	attr_accessor :size, :cards
-	include Straight
-
-	def initialize(size)
-		@size = size
-		@cards = Array.new
-	end
-end
-
 class TestStraight < Test::Unit::TestCase
-	def test_5_not_full_straight?
-		hand = StraightHand.new(5)
-		assert_raise(CardCountError) { hand.straight? }
-	end
+  def test_match_not_straight
+    cards = Array.new
+    cards << Card.new(Suit::SPADE, 1)
+    cards << Card.new(Suit::DIAMOND, 3)
+    cards << Card.new(Suit::CLUB, 5)
+    cards << Card.new(Suit::HEART, 7)
+    cards << Card.new(Suit::SPADE, 9)
 
-	def test_5_not_straight?
-		hand = StraightHand.new(5)
-		hand.cards[0] = Card.new(Suit::SPADE, 1);
-		hand.cards[1] = Card.new(Suit::DIAMOND, 3);
-		hand.cards[2] = Card.new(Suit::CLUB, 5);
-		hand.cards[3] = Card.new(Suit::HEART, 7);
-		hand.cards[4] = Card.new(Suit::SPADE, 9);
+    result = Straight.match?(cards)
 
-		card = hand.straight?
+    assert_nil(result)
+  end
 
-		assert_nil(card)
-	end
+  def test_match_low
+    cards = Array.new
+    cards << Card.new(Suit::SPADE, 1)
+    cards << Card.new(Suit::DIAMOND, 2)
+    cards << Card.new(Suit::CLUB, 3)
+    cards << Card.new(Suit::HEART, 4)
+    cards << Card.new(Suit::SPADE, 5)
 
-	def test_5_ace_five_straight?
-		hand = StraightHand.new(5)
-		hand.cards[0] = Card.new(Suit::SPADE, 1);
-		hand.cards[1] = Card.new(Suit::DIAMOND, 2);
-		hand.cards[2] = Card.new(Suit::CLUB, 3);
-		hand.cards[3] = Card.new(Suit::HEART, 4);
-		hand.cards[4] = Card.new(Suit::SPADE, 5);
+    result = Straight.match?(cards)
 
-		card = hand.straight?
+    assert_not_nil(result)
+    assert_equal(1, result.first.value)
+    assert_equal(5, result.last.value)
+  end
 
-		assert_not_nil(card)
-		assert_equal(5, card.value)
-	end
+  def test_match_middle
+    cards = Array.new
+    cards << Card.new(Suit::SPADE, 2)
+    cards << Card.new(Suit::DIAMOND, 3)
+    cards << Card.new(Suit::CLUB, 4)
+    cards << Card.new(Suit::HEART, 5)
+    cards << Card.new(Suit::SPADE, 6)
 
-	def test_5_two_six_straight?
-		hand = StraightHand.new(5)
-		hand.cards[0] = Card.new(Suit::SPADE, 2);
-		hand.cards[1] = Card.new(Suit::DIAMOND, 3);
-		hand.cards[2] = Card.new(Suit::CLUB, 4);
-		hand.cards[3] = Card.new(Suit::HEART, 5);
-		hand.cards[4] = Card.new(Suit::SPADE, 6);
+    result = Straight.match?(cards)
 
-		card = hand.straight?
+    assert_not_nil(result)
+    assert_equal(2, result.first.value)
+    assert_equal(6, result.last.value)
+  end
 
-		assert_not_nil(card)
-		assert_equal(6, card.value)
-	end
+  def test_match_high
+    cards = Array.new
+    cards << Card.new(Suit::SPADE, 1)
+    cards << Card.new(Suit::DIAMOND, 10)
+    cards << Card.new(Suit::CLUB, 11)
+    cards << Card.new(Suit::HEART, 12)
+    cards << Card.new(Suit::SPADE, 13)
 
-	def test_5_ten_ace_straight?
-		hand = StraightHand.new(5)
-		hand.cards[0] = Card.new(Suit::SPADE, 1);
-		hand.cards[1] = Card.new(Suit::DIAMOND, 10);
-		hand.cards[2] = Card.new(Suit::CLUB, 11);
-		hand.cards[3] = Card.new(Suit::HEART, 12);
-		hand.cards[4] = Card.new(Suit::SPADE, 13);
+    result = Straight.match?(cards)
 
-		card = hand.straight?
+    assert_not_nil(result)
+    assert_equal(10, result.first.value)
+    assert_equal(1, result.last.value)
+  end
 
-		assert_not_nil(card)
-		assert_equal(1, card.value)
-	end
+  def test_score_low
+    cards = Array.new
+    cards << Card.new(Suit::SPADE, 1)
+    cards << Card.new(Suit::DIAMOND, 2)
+    cards << Card.new(Suit::CLUB, 3)
+    cards << Card.new(Suit::HEART, 4)
+    cards << Card.new(Suit::SPADE, 5)
+    match = Straight.match?(cards)
 
-	def test_7_ten_ace_straight?
-		hand = StraightHand.new(7)
-		hand.cards[0] = Card.new(Suit::SPADE, 1);
-		hand.cards[1] = Card.new(Suit::DIAMOND, 6);
-		hand.cards[2] = Card.new(Suit::DIAMOND, 7);
-		hand.cards[3] = Card.new(Suit::DIAMOND, 10);
-		hand.cards[4] = Card.new(Suit::CLUB, 11);
-		hand.cards[5] = Card.new(Suit::HEART, 12);
-		hand.cards[6] = Card.new(Suit::SPADE, 13);
+    result = Straight.score(cards, match)
 
-		card = hand.straight?
+    assert_equal(4253125, result)
+  end
 
-		assert_not_nil(card)
-		assert_equal(1, card.value)
-	end
+  def test_score_middle
+    cards = Array.new
+    cards << Card.new(Suit::SPADE, 2)
+    cards << Card.new(Suit::DIAMOND, 3)
+    cards << Card.new(Suit::CLUB, 4)
+    cards << Card.new(Suit::HEART, 5)
+    cards << Card.new(Suit::SPADE, 6)
+    match = Straight.match?(cards)
+
+    result = Straight.score(cards, match)
+
+    assert_equal(4303750, result)
+  end
+
+  def test_score_high
+    cards = Array.new
+    cards << Card.new(Suit::SPADE, 1)
+    cards << Card.new(Suit::DIAMOND, 10)
+    cards << Card.new(Suit::CLUB, 11)
+    cards << Card.new(Suit::HEART, 12)
+    cards << Card.new(Suit::SPADE, 13)
+    match = Straight.match?(cards)
+
+    result = Straight.score(cards, match)
+
+    assert_equal(4708750, result)
+  end
 end

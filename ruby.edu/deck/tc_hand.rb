@@ -335,9 +335,6 @@ class TestHand < Test::Unit::TestCase
 	end
 
 	def test_straight?
-		hand = Hand.new(5)
-		assert_raise(CardCountError) { hand.straight? }
-
 		hand = Hand.new
 		hand.insert(Card.new(Suit::HEART, 1))
 		hand.insert(Card.new(Suit::SPADE, 2))
