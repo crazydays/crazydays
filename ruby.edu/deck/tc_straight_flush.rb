@@ -2,96 +2,78 @@ require 'straight_flush.rb'
 require 'card.rb'
 require 'test/unit'
 
-class StraightFlushHand
-	attr_accessor :size, :cards
-	include StraightFlush
-
-	def initialize(size)
-		@size = size
-		@cards = Array.new
-	end
-end
-
 class TestStraightFlush < Test::Unit::TestCase
-	def test_5_not_full_straight_flush?
-		hand = StraightFlushHand.new(5)
-		assert_raise(CardCountError) { hand.straight_flush? }
-	end
+  def test_match_no_cards()
+    cards = Array.new
 
+    result = StraightFlush.match?(cards)
 
-	def test_5_straight_straight_flush?
-		hand = StraightFlushHand.new(5)
-		hand.cards << Card.new(Suit::SPADE, 1)
-		hand.cards << Card.new(Suit::SPADE, 2)
-		hand.cards << Card.new(Suit::SPADE, 3)
-		hand.cards << Card.new(Suit::HEART, 4)
-		hand.cards << Card.new(Suit::SPADE, 5)
+    assert_nil(result)
+  end
 
-		card = hand.straight_flush?
+  def test_match_nothing()
+    cards = Array.new
+    cards << Card.new(Suit::SPADE, 2)
+    cards << Card.new(Suit::HEART, 3)
+    cards << Card.new(Suit::SPADE, 5)
+    cards << Card.new(Suit::HEART, 6)
+    cards << Card.new(Suit::SPADE, 7)
 
-		assert_nil(card)
-	end
+    result = StraightFlush.match?(cards)
 
-	def test_5_flush_straight_flush?
-		hand = StraightFlushHand.new(5)
-		hand.cards << Card.new(Suit::SPADE, 1)
-		hand.cards << Card.new(Suit::SPADE, 2)
-		hand.cards << Card.new(Suit::SPADE, 3)
-		hand.cards << Card.new(Suit::SPADE, 4)
-		hand.cards << Card.new(Suit::SPADE, 6)
+    assert_nil(result)
+  end
 
-		card = hand.straight_flush?
+  def test_match_straight()
+    cards = Array.new
+    cards << Card.new(Suit::SPADE, 2)
+    cards << Card.new(Suit::HEART, 3)
+    cards << Card.new(Suit::SPADE, 4)
+    cards << Card.new(Suit::HEART, 5)
+    cards << Card.new(Suit::SPADE, 6)
 
-		assert_nil(card)
-	end
+    result = StraightFlush.match?(cards)
 
+    assert_nil(result)
+  end
 
-	def test_5_five_straight_flush
-		hand = StraightFlushHand.new(5)
-		hand.cards << Card.new(Suit::SPADE, 1)
-		hand.cards << Card.new(Suit::SPADE, 2)
-		hand.cards << Card.new(Suit::SPADE, 3)
-		hand.cards << Card.new(Suit::SPADE, 4)
-		hand.cards << Card.new(Suit::SPADE, 5)
+  def test_match_flush()
+    cards = Array.new
+    cards << Card.new(Suit::SPADE, 2)
+    cards << Card.new(Suit::SPADE, 4)
+    cards << Card.new(Suit::SPADE, 6)
+    cards << Card.new(Suit::SPADE, 8)
+    cards << Card.new(Suit::SPADE, 10)
 
-		card = hand.straight_flush?
+    result = StraightFlush.match?(cards)
 
-		assert_not_nil(card)
-		assert_equal(5, card.value)
-	end
+    assert_nil(result)
+  end
 
-	def test_7_ace_straight_flush?
-		hand = StraightFlushHand.new(7)
-		hand.cards << Card.new(Suit::SPADE, 1)
-		hand.cards << Card.new(Suit::SPADE, 3)
-		hand.cards << Card.new(Suit::SPADE, 4)
-		hand.cards << Card.new(Suit::SPADE, 10)
-		hand.cards << Card.new(Suit::SPADE, 11)
-		hand.cards << Card.new(Suit::SPADE, 12)
-		hand.cards << Card.new(Suit::SPADE, 13)
+  def test_match_straight_flush()
+    cards = Array.new
+    cards << Card.new(Suit::SPADE, 2)
+    cards << Card.new(Suit::SPADE, 3)
+    cards << Card.new(Suit::SPADE, 4)
+    cards << Card.new(Suit::SPADE, 5)
+    cards << Card.new(Suit::SPADE, 6)
 
-		card = hand.straight_flush?
+    result = StraightFlush.match?(cards)
 
-		assert_not_nil(card)
-		assert_equal(1, card.value)
-	end
+    assert_not_nil(result)
+    assert_equal(5, result.size)
+  end
 
-	def test_10_ace_straight_flush?
-		hand = StraightFlushHand.new(10)
-		hand.cards << Card.new(Suit::HEART, 2)
-		hand.cards << Card.new(Suit::HEART, 3)
-		hand.cards << Card.new(Suit::HEART, 4)
-		hand.cards << Card.new(Suit::HEART, 5)
-		hand.cards << Card.new(Suit::HEART, 6)
-		hand.cards << Card.new(Suit::SPADE, 9)
-		hand.cards << Card.new(Suit::SPADE, 10)
-		hand.cards << Card.new(Suit::SPADE, 11)
-		hand.cards << Card.new(Suit::SPADE, 12)
-		hand.cards << Card.new(Suit::SPADE, 13)
+  def test_score()
+    cards = Array.new
+    cards << Card.new(Suit::SPADE, 2)
+    cards << Card.new(Suit::SPADE, 3)
+    cards << Card.new(Suit::SPADE, 4)
+    cards << Card.new(Suit::SPADE, 5)
+    cards << Card.new(Suit::SPADE, 6)
+    match = StraightFlush.match?(cards)
 
-		card = hand.straight_flush?
-
-		assert_not_nil(card)
-		assert_equal(13, card.value)
-	end
+    result = StraightFlush.score(cards, match)
+    assert_equal(8303750, result)
+  end
 end

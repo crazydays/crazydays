@@ -1,31 +1,24 @@
-require 'card_count.rb'
 require 'card_sort.rb'
 
 module StraightFlush
-	include CardCount
+  def StraightFlush.match?(cards)
+    match = nil
 
-	def straight_flush?
-		assert_full_hand
+    suits = CardSort.by_suit(cards)
+    suits.values.each do |suit|
+      if suit.size >= 5
+        run = CardSort.find_run(CardSort.by_value(suit))
+        match = run unless run == nil
+      end
+    end
 
-		straight = nil
-		suits = CardSort.by_suit(@cards)
+    match
+  end
 
-		suits.values.each do |suit|
-			values = CardSort.by_value(suit)
-			current = check_straight(values)
-
-			if straight == nil && current != nil
-				straight = current
-			elsif straight != nil && current != nil
-				straight = straight.value > current.value ? straight : current
-			end
-		end
-
-		straight
-	end
-
-	def check_straight(cards)
-		run = CardSort.find_run(cards)
-		run.last unless run == nil
-	end
+  def StraightFlush.score(cards, match, modifier = 8000000)
+    score = 0
+    score += modifier
+    score += CardSort.score_card(match.last, 5)
+    score
+  end
 end

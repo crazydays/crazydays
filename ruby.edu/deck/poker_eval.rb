@@ -6,6 +6,7 @@ require 'three_kind.rb'
 require 'straight.rb'
 require 'full_house.rb'
 require 'four_kind.rb'
+require 'straight_flush.rb'
 
 class PokerEvaluator
   attr_accessor :hand
@@ -15,7 +16,9 @@ class PokerEvaluator
   end
 
   def score
-    if match = FourKind.match?(@hand.cards)
+    if match = StraightFlush.match?(@hand.cards)
+      StraightFlush.score(@hand.cards, match)
+    elsif match = FourKind.match?(@hand.cards)
       FourKind.score(@hand.cards, match)
     elsif match = FullHouse.match?(@hand.cards)
       FullHouse.score(@hand.cards, match)
