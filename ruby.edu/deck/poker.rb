@@ -30,11 +30,9 @@ class Poker
 
   def discard()
     (1..@players).each do |i|
-      @ui.print @hands[i].to_s
-      discard = @ui.prompt('Discard?').chomp.split(/, */).sort.reverse
-      discard.each do |x|
-        @hands[i].discard(x.to_i)
-      end
+      @ui.print(@hands[i].to_s)
+      discards = @ui.prompt('Discard?').chomp.split(/, */).sort.reverse
+      @hands[i].discard(discards)
     end
   end
 

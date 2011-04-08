@@ -10,7 +10,6 @@ require 'four_kind.rb'
 require 'straight_flush.rb'
 
 class Hand
-
   attr_accessor :cards, :size
 
   def initialize(size = 5)
@@ -25,8 +24,7 @@ class Hand
   end
 
   def discard(index)
-    raise CardCountError, "Not enough cards" unless index < @cards.size
-    @cards[index] = nil
+    (index.is_a?(Array) ? index : [index]).each { |i| @cards[i.to_i] = nil }
     @cards.compact!
   end
 
