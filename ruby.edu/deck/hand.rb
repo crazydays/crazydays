@@ -30,7 +30,7 @@ class Hand
     @cards.compact!
   end
 
-  def to_s
+  def to_s()
     value = ''
     @cards.length.times do |i|
       if i > 0 then
@@ -39,80 +39,6 @@ class Hand
       value << @cards[i].to_s
     end
     value
-  end
-
-  def score
-    if card = straight_flush?
-      score_card(card) + 800
-    elsif card = four_of_kind?
-      score_card(card) + 700
-    elsif card = full_house?
-      score_card(card) + 600
-    elsif card = flush?
-      score_card(card) + 500
-    elsif card = straight?
-      score_card(card) + 400
-    elsif card = three_of_kind?
-      score_card(card) + 300
-    elsif card = two_pair?
-      score_card(card) + 200
-    elsif card = pair?
-      score_card(card) + 100
-    else
-      score_card(high_card?)
-    end
-  end
-
-  def score_card(card)
-    card.value == 1 ? 14 : card.value
-  end
-
-  def high_card?
-    if @cards[0].value == 1
-      @cards[0]
-    else
-      @cards[4]
-    end
-  end
-	
-  def pair?
-    cards = Pair.match?(@cards)
-    cards.last unless cards == nil
-  end
-
-  def two_pair?
-    cards = TwoPair.match?(@cards)
-    cards.first.last unless cards == nil
-  end
-
-  def three_of_kind?
-    cards = ThreeKind.match?(@cards)
-    cards.first unless cards == nil
-  end
-
-  def straight?
-    cards = Straight.match?(@cards)
-    cards.last unless cards == nil
-  end
-
-  def flush?
-    cards = Flush.match?(@cards)
-    cards.first unless cards == nil
-  end
-
-  def full_house?
-    cards = FullHouse.match?(@cards)
-    cards.first.first unless cards == nil
-  end
-
-  def four_of_kind?
-    cards = FourKind.match?(@cards)
-    cards.first unless cards == nil
-  end
-
-  def straight_flush?
-    cards = StraightFlush.match?(@cards)
-    cards.last unless cards == nil
   end
 end
 

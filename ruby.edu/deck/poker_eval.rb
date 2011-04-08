@@ -1,4 +1,3 @@
-require 'hand.rb'
 require 'high_card.rb'
 require 'pair.rb'
 require 'two_pair.rb'
@@ -9,31 +8,25 @@ require 'four_kind.rb'
 require 'straight_flush.rb'
 
 class PokerEvaluator
-  attr_accessor :hand
-
-  def initialize(hand)
-    @hand = hand
-  end
-
-  def score
-    if match = StraightFlush.match?(@hand.cards)
-      StraightFlush.score(@hand.cards, match)
-    elsif match = FourKind.match?(@hand.cards)
-      FourKind.score(@hand.cards, match)
-    elsif match = FullHouse.match?(@hand.cards)
-      FullHouse.score(@hand.cards, match)
-    elsif match = Flush.match?(@hand.cards)
-      Flush.score(@hand.cards, match)
-    elsif match = Straight.match?(@hand.cards)
-      Straight.score(@hand.cards, match)
-    elsif match = ThreeKind.match?(@hand.cards)
-      ThreeKind.score(@hand.cards, match)
-    elsif match = TwoPair.match?(@hand.cards)
-      TwoPair.score(@hand.cards, match)
-    elsif match = Pair.match?(@hand.cards)
-      Pair.score(@hand.cards, match)
+  def score(cards)
+    if match = StraightFlush.match?(cards)
+      StraightFlush.score(cards, match)
+    elsif match = FourKind.match?(cards)
+      FourKind.score(cards, match)
+    elsif match = FullHouse.match?(cards)
+      FullHouse.score(cards, match)
+    elsif match = Flush.match?(cards)
+      Flush.score(cards, match)
+    elsif match = Straight.match?(cards)
+      Straight.score(cards, match)
+    elsif match = ThreeKind.match?(cards)
+      ThreeKind.score(cards, match)
+    elsif match = TwoPair.match?(cards)
+      TwoPair.score(cards, match)
+    elsif match = Pair.match?(cards)
+      Pair.score(cards, match)
     else
-      HighCard.score(@hand.cards)
+      HighCard.score(cards)
     end
   end
 end
