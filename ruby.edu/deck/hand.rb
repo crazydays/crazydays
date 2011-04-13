@@ -29,14 +29,7 @@ class Hand
   end
 
   def to_s()
-    value = ''
-    @cards.length.times do |i|
-      if i > 0 then
-        value << ', '
-      end
-      value << @cards[i].to_s
-    end
-    value
+    "#{@cards.join(', ')}"
   end
 end
 
