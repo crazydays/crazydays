@@ -14,7 +14,7 @@ class Hand
 
   def initialize(size = 5)
     @size = size
-    @cards = Array.new
+    @cards = []
   end
 
   def insert(card)

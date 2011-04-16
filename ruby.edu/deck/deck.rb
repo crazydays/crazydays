@@ -7,9 +7,9 @@ class Deck
   attr_accessor :cards
 
   def initialize()
-    @cards = Array.new
-    ([Suit::SPADE, Suit::DIAMOND, Suit::CLUB, Suit::HEART]).each do |suit|
-      (1..13).each { |i| @cards.push(Card.new(suit, i)) }
+    @cards = []
+    [Suit::SPADE, Suit::DIAMOND, Suit::CLUB, Suit::HEART].each do |suit|
+      @cards += (1..13).map {|i| Card.new(suit, i) }
     end
   end
 
