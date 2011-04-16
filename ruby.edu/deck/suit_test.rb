@@ -1,4 +1,4 @@
-require 'suit.rb'
+require 'suit'
 require 'test/unit'
 
 class TestSuit < Test::Unit::TestCase

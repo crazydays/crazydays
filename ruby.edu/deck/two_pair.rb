@@ -1,5 +1,5 @@
-require 'card_sort.rb'
-require 'pair.rb'
+require 'card_sort'
+require 'pair'
 
 module TwoPair
   def TwoPair.match?(cards)

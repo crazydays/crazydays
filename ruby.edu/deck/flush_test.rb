@@ -1,5 +1,5 @@
-require 'flush.rb'
-require 'card.rb'
+require 'flush'
+require 'card'
 require 'test/unit'
 
 class TestFlush < Test::Unit::TestCase

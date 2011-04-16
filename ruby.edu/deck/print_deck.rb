@@ -1,5 +1,5 @@
-require 'deck.rb'
-require 'card.rb'
+require 'deck'
+require 'card'
 
 deck = Deck.new
 deck.shuffle!

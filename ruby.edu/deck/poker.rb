@@ -1,8 +1,8 @@
-require 'ui.rb'
-require 'deck.rb'
-require 'card.rb'
-require 'hand.rb'
-require 'poker_eval.rb'
+require 'ui'
+require 'deck'
+require 'card'
+require 'hand'
+require 'poker_eval'
 
 class Poker
   attr_accessor :players, :deck, :hands

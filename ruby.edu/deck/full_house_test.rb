@@ -1,5 +1,5 @@
-require 'full_house.rb'
-require 'card.rb'
+require 'full_house'
+require 'card'
 require 'test/unit'
 
 class TestFullHouse < Test::Unit::TestCase

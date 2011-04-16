@@ -1,4 +1,4 @@
-require 'deck.rb'
+require 'deck'
 require 'test/unit'
 
 class TestDeck < Test::Unit::TestCase

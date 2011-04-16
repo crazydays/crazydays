@@ -1,4 +1,4 @@
-require 'card_sort.rb'
+require 'card_sort'
 
 module HighCard
   def HighCard.match?(cards)

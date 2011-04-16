@@ -1,4 +1,4 @@
-require 'card.rb'
+require 'card'
 require 'test/unit'
 
 class TestCard < Test::Unit::TestCase

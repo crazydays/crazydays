@@ -1,5 +1,5 @@
-require 'hand.rb'
-require 'card.rb'
+require 'hand'
+require 'card'
 require 'test/unit'
 
 class TestHand < Test::Unit::TestCase

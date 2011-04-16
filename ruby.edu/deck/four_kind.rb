@@ -1,4 +1,4 @@
-require 'card_sort.rb'
+require 'card_sort'
 
 module FourKind
   def FourKind.match?(cards)

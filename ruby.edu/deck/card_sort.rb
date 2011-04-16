@@ -1,4 +1,4 @@
-require 'card.rb'
+require 'card'
 
 module CardSort
   def CardSort.by_suit(cards)

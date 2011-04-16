@@ -1,5 +1,5 @@
-require 'card_sort.rb'
-require 'deck.rb'
+require 'card_sort'
+require 'deck'
 require 'test/unit'
 
 class TestFlush < Test::Unit::TestCase

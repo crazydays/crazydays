@@ -1,7 +1,7 @@
-require 'ui.rb'
-require 'suit.rb'
-require 'card.rb'
-require 'poker.rb'
+require 'ui'
+require 'suit'
+require 'card'
+require 'poker'
 require 'test/unit'
 require 'mocha'
 

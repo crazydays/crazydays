@@ -1,11 +1,11 @@
-require 'high_card.rb'
-require 'pair.rb'
-require 'two_pair.rb'
-require 'three_kind.rb'
-require 'straight.rb'
-require 'full_house.rb'
-require 'four_kind.rb'
-require 'straight_flush.rb'
+require 'high_card'
+require 'pair'
+require 'two_pair'
+require 'three_kind'
+require 'straight'
+require 'full_house'
+require 'four_kind'
+require 'straight_flush'
 
 class PokerEvaluator
   def score(cards)

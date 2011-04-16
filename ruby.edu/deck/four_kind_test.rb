@@ -1,5 +1,5 @@
-require 'four_kind.rb'
-require 'card.rb'
+require 'four_kind'
+require 'card'
 require 'test/unit'
 
 class TestFourKind < Test::Unit::TestCase

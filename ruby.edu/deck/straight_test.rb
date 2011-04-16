@@ -1,5 +1,5 @@
-require 'straight.rb'
-require 'card.rb'
+require 'straight'
+require 'card'
 require 'test/unit'
 
 class TestStraight < Test::Unit::TestCase

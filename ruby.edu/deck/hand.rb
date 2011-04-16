@@ -1,13 +1,5 @@
-require 'card.rb'
-require 'card_count.rb'
-require 'pair.rb'
-require 'two_pair.rb'
-require 'three_kind.rb'
-require 'straight.rb'
-require 'flush.rb'
-require 'full_house.rb'
-require 'four_kind.rb'
-require 'straight_flush.rb'
+require 'card'
+require 'card_count'
 
 class Hand
   attr_accessor :cards, :size

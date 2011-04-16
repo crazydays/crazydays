@@ -1,4 +1,4 @@
-require 'ui_cmdln.rb'
+require 'ui_cmdln'
 require 'poker'
 
 ui = CommandLineUI.new

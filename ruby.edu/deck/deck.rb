@@ -1,4 +1,4 @@
-require 'card.rb'
+require 'card'
 
 class OutOfCards < StandardError
 end

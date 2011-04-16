@@ -1,4 +1,4 @@
-require 'card_sort.rb'
+require 'card_sort'
 
 module Straight
   def Straight.match?(cards)

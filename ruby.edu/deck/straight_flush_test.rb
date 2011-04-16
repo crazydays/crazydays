@@ -1,5 +1,5 @@
-require 'straight_flush.rb'
-require 'card.rb'
+require 'straight_flush'
+require 'card'
 require 'test/unit'
 
 class TestStraightFlush < Test::Unit::TestCase

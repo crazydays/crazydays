@@ -1,4 +1,4 @@
-require 'suit.rb'
+require 'suit'
 
 class InvalidCardError < StandardError
 end

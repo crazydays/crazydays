@@ -1,10 +1,10 @@
-require 'pair.rb'
+require 'pair'
 require 'test/unit'
 
 class TestPair < Test::Unit::TestCase
   def test_match_no_cards
     cards = Array.new()
-    
+
     result = Pair.match?(cards)
     assert_nil(result)
   end
@@ -13,9 +13,9 @@ class TestPair < Test::Unit::TestCase
     cards = Array.new()
     cards << Card.new(Suit::SPADE, 1)
     cards << Card.new(Suit::HEART, 1)
-    
+
     result = Pair.match?(cards)
-    
+
     assert_not_nil(result)
     assert_equal(2, result.size)
     assert_equal(1, result[0].value)
@@ -31,7 +31,7 @@ class TestPair < Test::Unit::TestCase
     cards << Card.new(Suit::SPADE, 4)
 
     result = Pair.match?(cards)
-    
+
     assert_not_nil(result)
     assert_equal(2, result.size)
     assert_equal(1, result[0].value)
@@ -47,7 +47,7 @@ class TestPair < Test::Unit::TestCase
     cards << Card.new(Suit::SPADE, 13)
 
     result = Pair.match?(cards)
-    
+
     assert_not_nil(result)
     assert_equal(2, result.size)
     assert_equal(13, result[0].value)
