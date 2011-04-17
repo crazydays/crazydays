@@ -1,4 +1,4 @@
-require 'poker_eval'
+require 'eval/poker_eval'
 require 'test/unit'
 
 class TestPokerEvaluator < Test::Unit::TestCase

@@ -1,4 +1,4 @@
-require 'high_card'
+require 'eval/high_card'
 require 'test/unit'
 
 class TestHighCard < Test::Unit::TestCase

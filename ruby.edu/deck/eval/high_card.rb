@@ -1,4 +1,4 @@
-require 'card_sort'
+require 'eval/card_sort'
 
 module HighCard
   def HighCard.match?(cards)

@@ -1,4 +1,4 @@
-require 'ui'
+require 'ui/ui'
 require 'suit'
 require 'card'
 require 'poker'

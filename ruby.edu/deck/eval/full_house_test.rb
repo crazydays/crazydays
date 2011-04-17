@@ -1,4 +1,4 @@
-require 'full_house'
+require 'eval/full_house'
 require 'card'
 require 'test/unit'
 

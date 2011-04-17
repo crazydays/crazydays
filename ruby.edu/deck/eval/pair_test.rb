@@ -1,4 +1,4 @@
-require 'pair'
+require 'eval/pair'
 require 'test/unit'
 
 class TestPair < Test::Unit::TestCase

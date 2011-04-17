@@ -1,4 +1,4 @@
-require 'straight_flush'
+require 'eval/straight_flush'
 require 'card'
 require 'test/unit'
 

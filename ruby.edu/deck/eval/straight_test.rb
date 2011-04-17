@@ -1,4 +1,4 @@
-require 'straight'
+require 'eval/straight'
 require 'card'
 require 'test/unit'
 

@@ -1,5 +1,5 @@
 require 'suit'
-require 'card_sort'
+require 'eval/card_sort'
 
 module Flush
   def Flush.match?(cards)

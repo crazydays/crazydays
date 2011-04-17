@@ -1,4 +1,4 @@
-require 'four_kind'
+require 'eval/four_kind'
 require 'card'
 require 'test/unit'
 

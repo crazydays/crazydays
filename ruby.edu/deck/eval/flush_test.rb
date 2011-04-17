@@ -1,4 +1,4 @@
-require 'flush'
+require 'eval/flush'
 require 'card'
 require 'test/unit'
 

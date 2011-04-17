@@ -1,8 +1,8 @@
-require 'ui'
+require 'ui/ui'
 require 'deck'
 require 'card'
 require 'hand'
-require 'poker_eval'
+require 'eval/poker_eval'
 
 class Poker
   attr_accessor :players, :deck, :hands
