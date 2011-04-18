@@ -10,7 +10,7 @@ class Hand
   end
 
   def insert(card)
-    raise CardCountError, "Too many cards" unless @cards.size < @size
+    raise CardCountError.new(@cards.size + 1, @size) unless @cards.size < @size
     @cards << card
     @cards = @cards.sort_by { |a| [a.value, a.suit.to_s] }
   end
