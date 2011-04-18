@@ -1,24 +1,24 @@
 require 'card'
 
 module CardSort
-  def CardSort.by_suit(cards)
-    suits = Hash.new{|h, k| h[k] = []}
-    cards.each {|c| suits[c.suit] << c }
-    suits
+  def CardSort.by_suit(unsorted)
+    by_suit = Hash.new {|h, k| h[k] = []}
+    unsorted.each {|c| by_suit[c.suit] << c }
+    by_suit
   end
 
-  def CardSort.by_value(cards)
-    values = Hash.new{|h, k| h[k] = []}
-    cards.each {|c| values[c.value] << c }
-    values
+  def CardSort.by_value(unsorted)
+    by_value = Hash.new {|h, k| h[k] = []}
+    unsorted.each {|c| by_value[c.value] << c }
+    by_value
   end
 
-  def CardSort.find_match(cards, size)
+  def CardSort.find_match(by_value, size)
     match = nil
 
     [(2..13).to_a, 1].flatten!.reverse!.each do |i|
-      if cards[i].size == size
-        match = cards[i]
+      if by_value[i].size == size
+        match = by_value[i]
         break
       end
     end
@@ -26,16 +26,16 @@ module CardSort
     match
   end
 
-  def CardSort.find_run(cards, size = 5)
+  def CardSort.find_run(by_value, size = 5)
     best = nil
-    current = Array.new
+    current = []
 
     [(1..13).to_a, 1].flatten!.each do |i|
-      if cards[i].size > 0
-        current << cards[i].last
+      if by_value[i].size > 0
+        current << by_value[i].last
       else
         best = current unless current.size < size
-        current = Array.new
+        current = []
       end
     end
 
@@ -43,14 +43,14 @@ module CardSort
     best
   end
 
-  def CardSort.remainder(cards, matched)
-    cards - matched
+  def CardSort.remainder(unsorted, matched)
+    unsorted - matched
   end
 
-  def CardSort.score_cards(cards, count = 5)
+  def CardSort.score_cards(unsorted, count = 5)
     score = 0
-    values = CardSort.by_value(cards)
-    place = [cards.size, count].min
+    values = CardSort.by_value(unsorted)
+    place = [unsorted.size, count].min
     [(2..13).to_a, 1].flatten!.reverse!.each do |i|
       if values[i].size > 0
         score += CardSort.score_card(values[i].first, place)
