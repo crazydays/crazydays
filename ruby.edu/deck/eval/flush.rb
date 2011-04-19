@@ -24,9 +24,6 @@ module Flush
   end
 
   def Flush.score(cards, match, modifier = 5000000)
-    score = 0
-    score += modifier
-    score += CardSort.score_cards(cards, 5)
-    score
+    modifier + CardSort.score_cards(cards, 5)
   end
 end

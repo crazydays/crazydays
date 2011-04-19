@@ -2,15 +2,17 @@ require 'ui/ui'
 require 'deck'
 require 'card'
 require 'hand'
+require 'player'
 require 'eval/poker_eval'
 
 class Poker
-  attr_accessor :players, :deck, :hands
+  attr_accessor :players, :deck
 
-  def initialize(ui = UI.new, players = 5)
+  def initialize(ui = UI.new, count = 5)
     @ui = ui
-    @players = players
-    @evaluator = PokerEvaluator.new()
+    @players = []
+    count.times { |x| @players << Player.new }
+    @evaluator = PokerEvaluator.new
   end
 
   def shuffle()
@@ -19,45 +21,45 @@ class Poker
   end
 
   def deal()
-    @hands = Array.new()
-    (1..@players).each { |i| @hands[i] = Hand.new }
-    (1..5).each do
-      (1..players).each do |i|
-        @hands[i].insert(@deck.deal)
-      end
+    (1..5).each do |i|
+      @players.each { |player| player.hand.insert(@deck.deal) }
     end
   end
 
   def discard()
-    (1..@players).each do |i|
-      @ui.print(@hands[i].to_s)
+    @players.each do |player|
+      @ui.print(player.hand.to_s)
       discards = @ui.prompt('Discard?').chomp.split(/, */).sort.reverse
-      @hands[i].discard(discards)
+      player.hand.discard(discards)
     end
   end
 
   def redeal()
-    (1..@players).each do |i|
-      until @hands[i].cards.size == 5
-        @hands[i].insert(@deck.deal)
+    @players.each do |player|
+      until player.hand.cards.size == 5
+        player.hand.insert(@deck.deal)
       end
     end
   end
 
   def print()
-    (1..@players).each { |i| @ui.print(@hands[i].to_s) }
+    @players.each { |player| @ui.print(player.hand.to_s) }
   end
 
   def winner()
     winner = nil
-    @hands.each do |hand|
-      unless winner == nil
-        winner = @evaluator.score(winner.cards) > @evaluator.score(hand.cards) ? winner : hand
+    @players.each do |player|
+      if winner.nil?
+        winner = player
       else
-        winner = hand
+        winner = score(winner) > score(player) ? winner : player
       end
     end
-    @ui.print "Winner! #{winner}"
+    @ui.print "Winner! #{winner.hand.to_s}"
     winner
+  end
+
+  def score(player)
+    @evaluator.score(player.hand.cards)
   end
 end

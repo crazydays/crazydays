@@ -1,6 +1,7 @@
 require 'eval/straight_flush'
 require 'eval/four_kind'
 require 'eval/full_house'
+require 'eval/flush'
 require 'eval/straight'
 require 'eval/three_kind'
 require 'eval/two_pair'

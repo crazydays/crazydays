@@ -1,8 +1,7 @@
-require 'ui/ui_cmdln'
+require 'ui/command_line'
 require 'poker'
 
-ui = CommandLineUI.new
-poker = Poker.new(ui)
+poker = Poker.new(CommandLine.new)
 poker.shuffle
 poker.deal
 poker.discard

@@ -6,12 +6,14 @@ require 'test/unit'
 require 'mocha'
 
 class TestHand < Test::Unit::TestCase
-  def test_initialize
+  def test_initialize_5
     poker = Poker.new
-    assert_equal(5, poker.players)
+    assert_equal(5, poker.players.size)
+  end
 
+  def test_initialize_7
     poker = Poker.new(UI.new, 7)
-    assert_equal(7, poker.players)
+    assert_equal(7, poker.players.size)
   end
 
   def test_shuffle
@@ -31,8 +33,8 @@ class TestHand < Test::Unit::TestCase
     poker.deal
 
     assert_equal(27, poker.deck.cards.size)
-    (1..5).each do |i|
-      assert_equal(5, poker.hands[i].cards.size)
+    poker.players.each do |player|
+      assert_equal(5, player.hand.cards.size)
     end
   end
 
@@ -43,15 +45,15 @@ class TestHand < Test::Unit::TestCase
     poker = Poker.new(ui, 1)
     poker.shuffle
     poker.deal
-    poker.hands[1].cards[0] = Card.new(Suit::SPADE, 1)
-    poker.hands[1].cards[1] = Card.new(Suit::SPADE, 2)
-    poker.hands[1].cards[2] = Card.new(Suit::HEART, 4)
-    poker.hands[1].cards[3] = Card.new(Suit::HEART, 5)
-    poker.hands[1].cards[4] = Card.new(Suit::HEART, 6)
+    poker.players[0].hand.cards[0] = Card.new(Suit::SPADE, 1)
+    poker.players[0].hand.cards[1] = Card.new(Suit::SPADE, 2)
+    poker.players[0].hand.cards[2] = Card.new(Suit::HEART, 4)
+    poker.players[0].hand.cards[3] = Card.new(Suit::HEART, 5)
+    poker.players[0].hand.cards[4] = Card.new(Suit::HEART, 6)
 
     poker.discard
 
-    assert_equal(3, poker.hands[1].cards.size)
+    assert_equal(3, poker.players[0].hand.cards.size)
   end
 
   def test_redeal
@@ -59,15 +61,15 @@ class TestHand < Test::Unit::TestCase
     poker.shuffle
     poker.deal
 
-    (1..poker.players).each do |i|
-      poker.hands[i].discard(0)
+    poker.players.each do |player|
+      player.hand.discard(0)
     end
 
     poker.redeal
 
     assert_equal(22, poker.deck.cards.size)
-    (1..5).each do |i|
-      assert_equal(5, poker.hands[i].cards.size)
+    poker.players.each do |player|
+      assert_equal(5, player.hand.cards.size)
     end
   end
 
@@ -79,94 +81,95 @@ class TestHand < Test::Unit::TestCase
     poker = Poker.new(ui, 2)
     poker.shuffle
     poker.deal
-    poker.hands[1].cards[0] = Card.new(Suit::SPADE, 1)
-    poker.hands[1].cards[1] = Card.new(Suit::SPADE, 2)
-    poker.hands[1].cards[2] = Card.new(Suit::HEART, 4)
-    poker.hands[1].cards[3] = Card.new(Suit::HEART, 5)
-    poker.hands[1].cards[4] = Card.new(Suit::HEART, 6)
-    poker.hands[2].cards[0] = Card.new(Suit::SPADE, 5)
-    poker.hands[2].cards[1] = Card.new(Suit::SPADE, 6)
-    poker.hands[2].cards[2] = Card.new(Suit::HEART, 7)
-    poker.hands[2].cards[3] = Card.new(Suit::HEART, 8)
-    poker.hands[2].cards[4] = Card.new(Suit::HEART, 9)
+    poker.players[0].hand.cards[0] = Card.new(Suit::SPADE, 1)
+    poker.players[0].hand.cards[1] = Card.new(Suit::SPADE, 2)
+    poker.players[0].hand.cards[2] = Card.new(Suit::HEART, 4)
+    poker.players[0].hand.cards[3] = Card.new(Suit::HEART, 5)
+    poker.players[0].hand.cards[4] = Card.new(Suit::HEART, 6)
+    poker.players[1].hand.cards[0] = Card.new(Suit::SPADE, 5)
+    poker.players[1].hand.cards[1] = Card.new(Suit::SPADE, 6)
+    poker.players[1].hand.cards[2] = Card.new(Suit::HEART, 7)
+    poker.players[1].hand.cards[3] = Card.new(Suit::HEART, 8)
+    poker.players[1].hand.cards[4] = Card.new(Suit::HEART, 9)
 
     poker.print
   end
 
-  def test_winner
-    # first
+  def test_winner_first
     poker = Poker.new(UI.new, 3)
     poker.shuffle
     poker.deal
 
-    poker.hands[1].cards[0] = Card.new(Suit::SPADE, 1)
-    poker.hands[1].cards[1] = Card.new(Suit::SPADE, 10)
-    poker.hands[1].cards[2] = Card.new(Suit::SPADE, 11)
-    poker.hands[1].cards[3] = Card.new(Suit::SPADE, 12)
-    poker.hands[1].cards[4] = Card.new(Suit::SPADE, 13)
-    poker.hands[2].cards[0] = Card.new(Suit::HEART, 1)
-    poker.hands[2].cards[1] = Card.new(Suit::CLUB, 3)
-    poker.hands[2].cards[2] = Card.new(Suit::DIAMOND, 5)
-    poker.hands[2].cards[3] = Card.new(Suit::SPADE, 7)
-    poker.hands[2].cards[4] = Card.new(Suit::DIAMOND, 9)
-    poker.hands[3].cards[0] = Card.new(Suit::HEART, 2)
-    poker.hands[3].cards[1] = Card.new(Suit::CLUB, 4)
-    poker.hands[3].cards[2] = Card.new(Suit::DIAMOND, 6)
-    poker.hands[3].cards[3] = Card.new(Suit::SPADE, 8)
-    poker.hands[3].cards[4] = Card.new(Suit::DIAMOND, 10)
+    poker.players[0].hand.cards[0] = Card.new(Suit::SPADE, 1)
+    poker.players[0].hand.cards[1] = Card.new(Suit::SPADE, 10)
+    poker.players[0].hand.cards[2] = Card.new(Suit::SPADE, 11)
+    poker.players[0].hand.cards[3] = Card.new(Suit::SPADE, 12)
+    poker.players[0].hand.cards[4] = Card.new(Suit::SPADE, 13)
+    poker.players[1].hand.cards[0] = Card.new(Suit::HEART, 1)
+    poker.players[1].hand.cards[1] = Card.new(Suit::CLUB, 3)
+    poker.players[1].hand.cards[2] = Card.new(Suit::DIAMOND, 5)
+    poker.players[1].hand.cards[3] = Card.new(Suit::SPADE, 7)
+    poker.players[1].hand.cards[4] = Card.new(Suit::DIAMOND, 9)
+    poker.players[2].hand.cards[0] = Card.new(Suit::HEART, 2)
+    poker.players[2].hand.cards[1] = Card.new(Suit::CLUB, 4)
+    poker.players[2].hand.cards[2] = Card.new(Suit::DIAMOND, 6)
+    poker.players[2].hand.cards[3] = Card.new(Suit::SPADE, 8)
+    poker.players[2].hand.cards[4] = Card.new(Suit::DIAMOND, 10)
 
     result = poker.winner
 
-    assert_equal(poker.hands[1], result)
+    assert_equal(poker.players[0], result)
+  end
 
-    # middle
+  def test_winner_middle
     poker = Poker.new(UI.new, 3)
     poker.shuffle
     poker.deal
 
-    poker.hands[1].cards[0] = Card.new(Suit::HEART, 1)
-    poker.hands[1].cards[1] = Card.new(Suit::CLUB, 3)
-    poker.hands[1].cards[2] = Card.new(Suit::DIAMOND, 5)
-    poker.hands[1].cards[3] = Card.new(Suit::SPADE, 7)
-    poker.hands[1].cards[4] = Card.new(Suit::DIAMOND, 9)
-    poker.hands[2].cards[0] = Card.new(Suit::SPADE, 1)
-    poker.hands[2].cards[1] = Card.new(Suit::SPADE, 10)
-    poker.hands[2].cards[2] = Card.new(Suit::SPADE, 11)
-    poker.hands[2].cards[3] = Card.new(Suit::SPADE, 12)
-    poker.hands[2].cards[4] = Card.new(Suit::SPADE, 13)
-    poker.hands[3].cards[0] = Card.new(Suit::HEART, 2)
-    poker.hands[3].cards[1] = Card.new(Suit::CLUB, 4)
-    poker.hands[3].cards[2] = Card.new(Suit::DIAMOND, 6)
-    poker.hands[3].cards[3] = Card.new(Suit::SPADE, 8)
-    poker.hands[3].cards[4] = Card.new(Suit::DIAMOND, 10)
+    poker.players[0].hand.cards[0] = Card.new(Suit::HEART, 1)
+    poker.players[0].hand.cards[1] = Card.new(Suit::CLUB, 3)
+    poker.players[0].hand.cards[2] = Card.new(Suit::DIAMOND, 5)
+    poker.players[0].hand.cards[3] = Card.new(Suit::SPADE, 7)
+    poker.players[0].hand.cards[4] = Card.new(Suit::DIAMOND, 9)
+    poker.players[1].hand.cards[0] = Card.new(Suit::SPADE, 1)
+    poker.players[1].hand.cards[1] = Card.new(Suit::SPADE, 10)
+    poker.players[1].hand.cards[2] = Card.new(Suit::SPADE, 11)
+    poker.players[1].hand.cards[3] = Card.new(Suit::SPADE, 12)
+    poker.players[1].hand.cards[4] = Card.new(Suit::SPADE, 13)
+    poker.players[2].hand.cards[0] = Card.new(Suit::HEART, 2)
+    poker.players[2].hand.cards[1] = Card.new(Suit::CLUB, 4)
+    poker.players[2].hand.cards[2] = Card.new(Suit::DIAMOND, 6)
+    poker.players[2].hand.cards[3] = Card.new(Suit::SPADE, 8)
+    poker.players[2].hand.cards[4] = Card.new(Suit::DIAMOND, 10)
 
     result = poker.winner
 
-    assert_equal(poker.hands[2], result)
+    assert_equal(poker.players[1], result)
+  end
 
-    # last
+  def test_winner_last
     poker = Poker.new(UI.new, 3)
     poker.shuffle
     poker.deal
 
-    poker.hands[1].cards[0] = Card.new(Suit::HEART, 1)
-    poker.hands[1].cards[1] = Card.new(Suit::CLUB, 3)
-    poker.hands[1].cards[2] = Card.new(Suit::DIAMOND, 5)
-    poker.hands[1].cards[3] = Card.new(Suit::SPADE, 7)
-    poker.hands[1].cards[4] = Card.new(Suit::DIAMOND, 9)
-    poker.hands[2].cards[0] = Card.new(Suit::HEART, 2)
-    poker.hands[2].cards[1] = Card.new(Suit::CLUB, 4)
-    poker.hands[2].cards[2] = Card.new(Suit::DIAMOND, 6)
-    poker.hands[2].cards[3] = Card.new(Suit::SPADE, 8)
-    poker.hands[2].cards[4] = Card.new(Suit::DIAMOND, 10)
-    poker.hands[3].cards[0] = Card.new(Suit::SPADE, 1)
-    poker.hands[3].cards[1] = Card.new(Suit::SPADE, 10)
-    poker.hands[3].cards[2] = Card.new(Suit::SPADE, 11)
-    poker.hands[3].cards[3] = Card.new(Suit::SPADE, 12)
-    poker.hands[3].cards[4] = Card.new(Suit::SPADE, 13)
+    poker.players[0].hand.cards[0] = Card.new(Suit::HEART, 1)
+    poker.players[0].hand.cards[1] = Card.new(Suit::CLUB, 3)
+    poker.players[0].hand.cards[2] = Card.new(Suit::DIAMOND, 5)
+    poker.players[0].hand.cards[3] = Card.new(Suit::SPADE, 7)
+    poker.players[0].hand.cards[4] = Card.new(Suit::DIAMOND, 9)
+    poker.players[1].hand.cards[0] = Card.new(Suit::HEART, 2)
+    poker.players[1].hand.cards[1] = Card.new(Suit::CLUB, 4)
+    poker.players[1].hand.cards[2] = Card.new(Suit::DIAMOND, 6)
+    poker.players[1].hand.cards[3] = Card.new(Suit::SPADE, 8)
+    poker.players[1].hand.cards[4] = Card.new(Suit::DIAMOND, 10)
+    poker.players[2].hand.cards[0] = Card.new(Suit::SPADE, 1)
+    poker.players[2].hand.cards[1] = Card.new(Suit::SPADE, 10)
+    poker.players[2].hand.cards[2] = Card.new(Suit::SPADE, 11)
+    poker.players[2].hand.cards[3] = Card.new(Suit::SPADE, 12)
+    poker.players[2].hand.cards[4] = Card.new(Suit::SPADE, 13)
 
     result = poker.winner
 
-    assert_equal(poker.hands[3], result)
+    assert_equal(poker.players[2], result)
   end
 end

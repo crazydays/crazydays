@@ -3,7 +3,7 @@ class CardCountError < StandardError
 
   def initialize(actual, expected = 0)
     @actual = actual if actual > 0
-    @expected = expected if expected > 0
+    @expected = expected > 0 ? expected : nil
   end
 
   def error_message

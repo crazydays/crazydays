@@ -1,6 +1,6 @@
-require 'ui'
+require 'ui/ui'
 
-class CommandLineUI < UI
+class CommandLine < UI
   def initialize(input = STDIN, output = STDOUT)
     @input = input
     @output = output
